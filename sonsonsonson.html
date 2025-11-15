@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manita Calendar 🥬</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Poppins:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg-top: #0f0f15;
+      --bg-bottom: #1a1a26;
+      --card-bg: #14121c;
+      --card-border: rgba(255, 255, 255, 0.16);
+      --accent: #f28b82;
+      --accent-soft: #ffc7b7;
+      --text-main: #f3f0ff;
+      --text-soft: #b3aec9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Emojili pattern */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -600px;
+      left: -300px;
+      width: calc(100% + 600px);
+      height: calc(100% + 1200px);
+      z-index: -1;
+      pointer-events: none;
+
+      background-image: url("data:image/svg+xml;utf8,\
+    <svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'>\
+      <text x='10' y='50' font-size='38' opacity='0.40'>🥬</text>\
+      <text x='90' y='120' font-size='34' opacity='0.40'>❤️</text>\
+    </svg>");
+      background-repeat: repeat;
+      background-size: 160px 160px;
+
+      opacity: 0.25;
+      animation: driftSmooth 110s linear infinite;
+      will-change: transform;
+    }
+
+    @keyframes driftSmooth {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+      50% {
+        transform: translate3d(-220px, -160px, 0);
+      }
+      100% {
+        transform: translate3d(0, -320px, 0);
+      }
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      min-height: 100%;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      font-weight: 400;
+      background: linear-gradient(180deg, #0f0f15 0%, #1a1a26 100%);
+      background-repeat: no-repeat;
+      background-size: cover;
+
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      color: #f3f0ff;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    @supports (height: 100dvh) {
+      body {
+        min-height: 100dvh;
+      }
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 24px 22px 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 0 20px rgba(255, 200, 230, 0.15),
+        0 18px 50px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .card.anniversary {
+      box-shadow: 0 0 40px rgba(255, 192, 203, 0.35);
+      border-color: rgba(255, 200, 230, 0.6);
+    }
+
+    .card-header {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      z-index: 1;
+    }
+
+    .title-block {
+      max-width: 70%;
+    }
+
+    .title-block h1 {
+      font-family: "Dancing Script", cursive;
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: 0;
+      color: #ffffff;
+    }
+
+    .title-block p {
+      margin-top: 4px;
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
+
+    .day-counter {
+      margin-top: 4px;
+      font-size: 0.8rem;
+      color: var(--accent-soft);
+    }
+
+    .day-pill {
+      display: none;
+    }
+
+    .day-pill span:first-child {
+      font-weight: 600;
+      color: var(--accent-soft);
+    }
+
+    .music-bar {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    .music-bar button {
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(0, 0, 0, 0.4);
+      color: var(--text-main);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    .music-bar button:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .music-bar .music-title {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .music-bar input[type="range"] {
+      width: 70px;
+    }
+
+    .status {
+      position: relative;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      margin-bottom: 12px;
+      z-index: 1;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .note {
+      position: relative;
+      padding: 14px 0 12px;
+      min-height: 90px;
+      z-index: 1;
+    }
+
+    .note-title {
+      font-family: "Dancing Script", cursive;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+
+    .note-text {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-main);
+      white-space: pre-line;
+    }
+
+    .photos {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .photo {
+      position: relative;
+      width: calc(50% - 5px);
+      aspect-ratio: 4 / 5;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: #1f1c2b;
+      box-shadow: 0 18px 35px rgba(0, 0, 0, 0.6);
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.02);
+    }
+
+    /* Tam görünmesini istediğin fotolar için */
+    .photo.photo--full {
+      width: 100%;
+      aspect-ratio: auto;
+    }
+
+    .photo.photo--full img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .hint {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      opacity: 0.95;
+    }
+
+    .footer {
+      margin-top: 16px;
+      font-size: 0.75rem;
+      color: var(--text-soft);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      opacity: 0.9;
+      z-index: 1;
+    }
+
+    .footer span {
+      white-space: nowrap;
+    }
+
+    .calendar-wrapper {
+      position: fixed;
+      left: calc(50% + 280px);
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+
+    .calendar-box {
+      background: rgba(20, 18, 28, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow:
+        0 0 20px rgba(255, 200, 230, 0.15),
+        0 10px 40px rgba(0, 0, 0, 0.55);
+      border-radius: 20px;
+      padding: 14px 18px;
+      color: var(--text-main);
+      font-size: 0.8rem;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 10px;
+    }
+
+    .calendar-month {
+      font-weight: 500;
+      letter-spacing: 0.03em;
+    }
+
+    .calendar-counter {
+      color: var(--accent-soft);
+      white-space: nowrap;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      font-size: 0.72rem;
+      text-align: center;
+    }
+
+    .calendar-weekday {
+      color: var(--text-soft);
+      opacity: 0.9;
+    }
+
+    .calendar-day {
+      padding: 4px 0;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.25);
+      color: var(--text-main);
+    }
+
+    .calendar-day.empty {
+      background: transparent;
+    }
+
+    .calendar-day.today {
+      background: linear-gradient(135deg, #f28b82, #ffc7b7);
+      color: #1a1a26;
+      font-weight: 600;
+    }
+
+    .quiz {
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 0.85rem;
+      color: var(--text-main);
+    }
+
+    .quiz-text {
+      margin-bottom: 4px;
+      color: var(--text-soft);
+    }
+
+    .quiz-question {
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .quiz-input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .quiz-input-row input {
+      flex: 1;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(0, 0, 0, 0.4);
+      padding: 6px 10px;
+      color: var(--text-main);
+      font-size: 0.8rem;
+    }
+
+    .quiz-input-row input::placeholder {
+      color: var(--text-soft);
+    }
+
+    .quiz-input-row button {
+      border-radius: 999px;
+      border: none;
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .quiz-input-row button:hover {
+      filter: brightness(1.05);
+    }
+
+    .quiz-feedback {
+      min-height: 1em;
+      font-size: 0.8rem;
+      color: var(--accent-soft);
+    }
+
+    .status select {
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.45);
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 10px;
+      padding: 6px 10px;
+      outline: none;
+      appearance: none;
+      margin-left: 4px;
+    }
+
+    .status select option {
+      background-color: #151520;
+      color: var(--text-main);
+    }
+
+    @media (max-width: 480px) {
+      body {
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 22px 14px;
+        padding-top: calc(22px + env(safe-area-inset-top));
+        padding-bottom: calc(22px + env(safe-area-inset-bottom));
+      }
+
+      .card {
+        border-radius: 22px;
+        margin-top: 26px;
+        margin-bottom: 36px;
+      }
+
+      .card-header {
+        margin-bottom: 18px;
+      }
+
+      .title-block h1 {
+        font-size: 1.8rem;
+      }
+
+      .title-block p {
+        font-size: 0.85rem;
+      }
+
+      .note-text {
+        font-size: 0.92rem;
+      }
+
+      .photos {
+        flex-direction: column;
+        margin-top: 14px;
+      }
+
+      .photo {
+        width: 100%;
+        max-width: 260px;
+        margin-inline: auto;
+      }
+
+      .footer {
+        margin-top: 24px;
+      }
+
+      .calendar-wrapper {
+        display: none;
+      }
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+  <main class="card">
+    <header class="card-header">
+      <div class="title-block">
+        <h1>Manita Calendar 🥬</h1>
+        <p>Her gün yeni bir not mu? ÇÜÜÜŞŞ. 😜</p>
+        <p class="day-counter" id="day-counter"></p>
+      </div>
+      <div class="day-pill" id="day-pill">
+        <span>–</span>
+        <span>–</span>
+      </div>
+    </header>
+
+    <div class="music-bar">
+      <button id="music-toggle" type="button">▶</button>
+      <span class="music-title">Yalın – Sensiz Olmaz</span>
+      <input id="music-volume" type="range" min="0" max="1" step="0.05" value="0.2" />
+    </div>
+
+    <div class="status hidden" id="status"></div>
+
+    <div class="quiz" id="quiz-area" hidden>
+      <p class="quiz-text">
+        Notları görmek öyle kolay değil, önce soruyu doğru bilcen. 😜
+      </p>
+      <p class="quiz-question" id="quiz-question"></p>
+      <div class="quiz-input-row">
+        <input
+          type="text"
+          id="quiz-answer"
+          placeholder="Cevabını buraya yaz..."
+          autocomplete="off"
+        />
+        <button type="button" id="quiz-submit">Göster</button>
+      </div>
+      <p class="quiz-feedback" id="quiz-feedback"></p>
+    </div>
+
+    <section class="note" id="note-section" hidden>
+      <h2 class="note-title" id="note-title"></h2>
+      <p class="note-text" id="note-text"></p>
+
+      <div class="photos" id="photos"></div>
+
+      <div class="hint">
+        Sonraki notları sadece yeni güne girdiğimizde görebilceksin. YANİ SÜPRİZ HİHİHİHİ ✨
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span id="range-text"></span>
+      <span>🤍</span>
+    </footer>
+  </main>
+
+  <section class="calendar-wrapper">
+    <div id="calendar-root"></div>
+  </section>
+
+  <audio id="bg-music" loop>
+    <source src="sensiz-olmaz.mp3" type="audio/mpeg" />
+  </audio>
+
+  <audio id="confetti-sound">
+    <source src="confetti.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- GÜN VERİLERİ -->
+  <script>
+    const SEASON_YEAR = 2025;
+    const RELATION_START = new Date(2025, 4, 12);
+
+    const entries = {
+      "2025-11-30": {
+        title: "1-Her Şeyin Bir İlki Var",
+        text: "MERHABA HAYATIM. Bu takvimin ilk gününde bizim de ilk günümüzle başlamak tatlı olur diye düşündüm. Bakınca, o günden bu yana çok şey değişmiş. Samimiyetimiz artmış, birbirimiz hakkında bildiklerimiz artmış. Ama gerçekten, o günden beri yanına gelirken yaşadığım heyecan, seni ilk görünce yüzümde kendiliğinden oluşan gülümseme hep aynı kalmış. Dilerim, heyecanımız, mutluluğumuz ömür boyunca hep ilk günkü gibi saf ve temiz kalır. Dilerim ömür boyunca sohbetimiz muhabbetimiz eksik olmaz. Her mutluluğumuzda, üzüntümüzde, hayatlarımızda birine ihtiyaç duyduğumuz her anda birbirimizin yanında oluruz. Seni çok seviyorum bitanem. İyi ki varsın",
+        photos: [
+          "images/1ilkgün/1.png",
+          "images/1ilkgün/2.png"
+        ],
+        quiz: {
+          question: "Bu günün teması neydi? (ipucu: klasör adı)",
+          answers: ["ilk gün", "ilkgün", "ilkgun"]
+        }
+      },
+
+      "2025-12-01": {
+        title: "Gün 2 – Sürpriz",
+        text: "",
+        photos: [
+          "images/2süpriz/1.png",
+          "images/2süpriz/2.png",
+          "images/2süpriz/3.png"
+        ],
+        quiz: {
+          question: "Bugünün kelimesi ne? (cevap: sürpriz)",
+          answers: ["sürpriz", "supriz", "sürpriz gün", "supriz gun"]
+        }
+      },
+
+      "2025-12-02": {
+        title: "Gün 3 – Bakakalmak",
+        text: "",
+        photos: [
+          "images/3bakakalmak/1.png"
+        ],
+        quiz: {
+          question: "Birine uzun uzun bakmaya ne deriz? (cevap: bakakalmak)",
+          answers: ["bakakalmak", "bakamakalmak"]
+        }
+      },
+
+      "2025-12-03": {
+        title: "Gün 4 – Hayal Kurmak",
+        text: "",
+        photos: [
+          "images/4hayalkurmak/1.png",
+          "images/4hayalkurmak/2-full.png"
+        ],
+        quiz: {
+          question: "Gelecek hakkında güzel şeyler düşünmeye ne denir? (cevap: hayal kurmak)",
+          answers: ["hayal kurmak", "hayalkurmak"]
+        }
+      },
+
+      "2025-12-04": {
+        title: "Gün 5 – Hata Yapmak & Affetmek",
+        text: "",
+        photos: [
+          "images/5hatayapmaktelafietmek/1.png",
+          "images/5hatayapmaktelafietmek/2.png",
+          "images/5hatayapmaktelafietmek/3.png",
+          "images/5hatayapmaktelafietmek/4.png"
+        ],
+        quiz: {
+          question: "İlişkide en önemli süper güçlerden biri nedir? (cevap: affetmek)",
+          answers: ["affetmek", "af etmek"]
+        }
+      },
+
+      "2025-12-05": {
+        title: "Gün 6 – Beraber Olmak",
+        text: "",
+        photos: [
+          "images/6beraberolmak/1-full.png",
+          "images/6beraberolmak/2.png",
+          "images/6beraberolmak/3.png",
+          "images/6beraberolmak/4.png"
+        ],
+        quiz: {
+          question: "Yan yana olmayı anlatan kelime? (cevap: beraber)",
+          answers: ["beraber", "birlikte"]
+        }
+      },
+
+      "2025-12-06": {
+        title: "Gün 7 – Şebeklik Yapmak",
+        text: "",
+        photos: [
+          "images/7şebeklikyapmak/1.png",
+          "images/7şebeklikyapmak/2.png",
+          "images/7şebeklikyapmak/3.png"
+        ],
+        quiz: {
+          question: "Birlikte saçma sapan gülmeye, poz vermeye ne diyoruz? (cevap: şebeklik)",
+          answers: ["şebeklik", "sebeklik"]
+        }
+      },
+
+      "2025-12-07": {
+        title: "Gün 8 – İyi Gün Kötü Gün",
+        text: "",
+        photos: [
+          "images/8iyigünkötügün/1.png",
+          "images/8iyigünkötügün/2.png"
+        ],
+        quiz: {
+          question: "Hangi iki kelime birlikte söylenir: 'iyi gün ... gün'? (cevap: kötü)",
+          answers: ["kötü", "kotu", "kötü gün", "kotu gun"]
+        }
+      },
+
+      "2025-12-08": {
+        title: "Gün 9 – Özel Günler",
+        text: "",
+        photos: [
+          "images/9özelgündeğilgünleriözelyapan/1.png",
+          "images/9özelgündeğilgünleriözelyapan/2.png"
+        ],
+        quiz: {
+          question: "Sevgililer günü, doğum günü gibi günlere ne deriz? (cevap: özel gün)",
+          answers: ["özel gün", "ozel gun", "özel günler", "ozel gunler"]
+        }
+      },
+
+      "2025-12-09": {
+        title: "Gün 10 – Birini Çok Sevmek",
+        text: "",
+        photos: [
+          "images/10biriniçoksevmek/1.png"
+        ],
+        quiz: {
+          question: "Bu sayfada kimi 'çok' seviyorum? (cevap: seni)",
+          answers: ["seni", "sen", "manitam"]
+        }
+      },
+
+      "2025-12-10": {
+        title: "Gün 11 – Ufak Bir İtiraf",
+        text: "",
+        photos: [
+          "images/11ufakbiritiraf/1.png"
+        ],
+        quiz: {
+          question: "Kalpten gelen saklı cümlelere ne deriz? (cevap: itiraf)",
+          answers: ["itiraf", "itiraf etmek"]
+        }
+      },
+
+      "2025-12-11": {
+        title: "Gün 12 – Tatlılık",
+        text: "",
+        photos: [
+          "images/12tatlılık/1.png",
+          "images/12tatlılık/2.png"
+        ],
+        quiz: {
+          question: "Senin başka bir adı: aşırı ...... (cevap: tatlı)",
+          answers: ["tatlı", "tatli", "tatlılık", "tatlilik"]
+        }
+      },
+
+      "2025-12-12": {
+        title: "Gün 13 – Gülmek",
+        text: "",
+        photos: [
+          "images/13gülmek/1.png",
+          "images/13gülmek/2.png"
+        ],
+        quiz: {
+          question: "En sevdiğim seslerden biri: senin ...... sesin. (cevap: gülme)",
+          answers: ["gülme", "gulme", "gülmek", "gulmek"]
+      },
+      isAnniversary: true
+    },
+
+      "2025-12-13": {
+        title: "Gün 14 – Kız Ruhlar",
+        text: "",
+        photos: [
+          "images/14ikizruhlar/1-full.png",
+          "images/14ikizruhlar/2-full.png"
+        ],
+        quiz: {
+          question: "Bizim gizli ekibimizin adı: 'iki .... ruh' (cevap: kız)",
+          answers: ["kız", "kiz"]
+        }
+      },
+
+      "2025-12-14": {
+        title: "Gün 15 – Her Şeyin Başlangıcı",
+        text: "",
+        photos: [
+          "images/15herşeyinbaşlangıcı/1.png",
+          "images/15herşeyinbaşlangıcı/2.png"
+        ],
+        quiz: {
+          question: "Bir hikayenin ilk kısmına ne deriz? (cevap: başlangıç)",
+          answers: ["başlangıç", "baslangic"]
+        }
+      },
+
+      "2025-12-15": {
+        title: "Gün 16 – Kendime Övme Günü",
+        text: "",
+        photos: [
+          "images/16kendimeövmegünü/1.png"
+        ],
+        quiz: {
+          question: "Bugünün konsepti: biraz kendini .... (cevap: övmek)",
+          answers: ["övmek", "ovmek", "kendini övmek", "kendimi övmek"]
+        }
+      },
+
+      "2025-12-16": {
+        title: "Gün 17 – Her Şeyin Daha Keyiflisi",
+        text: "",
+        photos: [
+          "images/17herşeyindahakeyiflisi/1-full.png",
+          "images/17herşeyindahakeyiflisi/2.png",
+          "images/17herşeyindahakeyiflisi/3.png",
+          "images/17herşeyindahakeyiflisi/4.png"
+        ],
+        quiz: {
+          question: "Seninle olan her şey biraz daha .... (cevap: keyifli)",
+          answers: ["keyifli", "keyiflii"]
+        }
+      },
+
+      "2025-12-17": {
+        title: "Gün 18 – Konser",
+        text: "",
+        photos: [
+          "images/18konser/1.png",
+          "images/18konser/2.png",
+          "images/18konser/3.png"
+        ],
+        quiz: {
+          question: "Canlı müzik dinlemeye gittiğimiz etkinliğe ne denir? (cevap: konser)",
+          answers: ["konser"]
+        }
+      },
+
+      "2025-12-18": {
+        title: "Gün 19 – Kalp Krizi",
+        text: "",
+        photos: [
+          "images/19kalpkrizi/1.png"
+        ],
+        quiz: {
+          question: "Aşırı aşk + aşırı heyecan = ? (cevap: kalp krizi şakası)",
+          answers: ["kalp krizi", "kalpkrizi"]
+        }
+      },
+
+      "2025-12-19": {
+        title: "Gün 20 – Sapıklık",
+        text: "",
+        photos: [
+          "images/20sapıkluk/1.png",
+          "images/20sapıkluk/2.png"
+        ],
+        quiz: {
+          question: "Birbirimize şaka yollu ne diyoruz: 'küçük ....' (cevap: sapık)",
+          answers: ["sapık", "sapik", "sapıklık", "sapiklik"]
+        }
+      },
+
+      "2025-12-20": {
+        title: "Gün 21 – Elinden Gelenin En Fazlası",
+        text: "",
+        photos: [
+          "images/21elindengeleninfazlası/1.png"
+        ],
+        quiz: {
+          question: "Bir şey için 'elimden gelenin .... yaptım' deriz. Boşluk? (cevap: en iyisini / en fazlasını)",
+          answers: ["en iyisini", "en iyisi", "en fazlasını", "en fazlasini"]
+        }
+      },
+
+      "2025-12-21": {
+        title: "Gün 22 – Her Anlamda Yumuşak",
+        text: "",
+        photos: [
+          "images/22heranlamdauyuşmak/1.png"
+        ],
+        quiz: {
+          question: "Hem kalbi, hem sarılması yumuşak olana ne deriz? (cevap: yumuşak)",
+          answers: ["yumuşak", "yumusak"]
+        }
+      },
+
+      "2025-12-22": {
+        title: "Gün 23 – Eşeklik",
+        text: "",
+        photos: [
+          "images/23eşeklik/1.png"
+        ],
+        quiz: {
+          question: "Birbirimize bazen sevgiyle ne deriz: 'yine ne .... yaptın?' (cevap: eşeklik)",
+          answers: ["eşeklik", "eseklik"]
+        }
+      },
+
+      "2025-12-23": {
+        title: "Gün 24 – Sevmek",
+        text: "",
+        photos: [
+          "images/24sevmek/1.png",
+          "images/24sevmek/2.png"
+        ],
+        quiz: {
+          question: "Bu takvimin ana fiili ne? (cevap: sevmek)",
+          answers: ["sevmek", "seviyorum", "sevgi"]
+        }
+      },
+
+      "2025-12-24": {
+        title: "Gün 25 – Rahat Olmak",
+        text: "",
+        photos: [
+          "images/25rahatolmak/1.png"
+        ],
+        quiz: {
+          question: "Stres olmayınca insan nasıl hisseder? (cevap: rahat)",
+          answers: ["rahat", "rahat olmak"]
+        }
+      },
+
+      "2025-12-25": {
+        title: "Gün 26 – Mutluluğu İçin Her Şeyi Yapmak",
+        text: "",
+        photos: [
+          "images/26mutluluğuiçinherşeyiyapmak/1.png",
+          "images/26mutluluğuiçinherşeyiyapmak/2.png",
+          "images/26mutluluğuiçinherşeyiyapmak/3.png"
+        ],
+        quiz: {
+          question: "Buradaki kilit kelime: 'senin .... için her şeyi yaparım'. (cevap: mutluluğun)",
+          answers: ["mutluluğun", "mutlulugun"]
+        }
+      },
+
+      "2025-12-26": {
+        title: "Gün 27 – Minik Beyza",
+        text: "",
+        photos: [
+          "images/27minikbeyza/1.png",
+          "images/27minikbeyza/2.png",
+          "images/27minikbeyza/3.png",
+          "images/27minikbeyza/4.png",
+          "images/27minikbeyza/5.png"
+        ],
+        quiz: {
+          question: "Bugünün asıl yıldızı kim? (cevap: minik beyza)",
+          answers: ["minik beyza", "beyza", "minikbeyza"]
+        }
+      },
+
+      "2025-12-27": {
+        title: "Gün 28 – İyi Ki",
+        text: "",
+        photos: [
+          "images/28iyiki/1.png"
+        ],
+        quiz: {
+          question: "Bu cümleyi tamamla: '.... ki hayatımdasın'. (cevap: iyi)",
+          answers: ["iyi", "iyiki", "iyi ki"]
+        }
+      },
+
+      "2025-12-28": {
+        title: "Gün 29 – O Yokken Bile Sevmek",
+        text: "",
+        photos: [
+          "images/29oyokkenbilesevmek/1.png"
+        ],
+        quiz: {
+          question: "Yan yana olmasak bile içten içe ne yapıyorum? (cevap: sevmek)",
+          answers: ["sevmek", "seni seviyorum", "seviyorum"]
+        }
+      },
+
+      "2025-12-29": {
+        title: "Gün 30 – Kıpır Kıpır Olmak",
+        text: "",
+        photos: [
+          "images/30kıpırkıpırolmak/1-full.png"
+        ],
+        quiz: {
+          question: "Heyecanlı, içi içe sığmayan his nasıl tarif edilir? (cevap: kıpır kıpır)",
+          answers: ["kıpır kıpır", "kipir kipir", "kıpırkıpır"]
+        }
+      },
+
+      "2025-12-30": {
+        title: "Gün 31 – Güzellik",
+        text: "",
+        photos: [
+          "images/31güzellik/1.png",
+          "images/31güzellik/2.png"
+        ],
+        quiz: {
+          question: "Bu sayfada en çok ne var? (cevap: güzellik)",
+          answers: ["güzellik", "guzellik"]
+        }
+      },
+
+      "2025-12-31": {
+        title: "Gün 32 – Yarınıyla",
+        text: "",
+        photos: [
+          "images/32yarımyıl/1.png",
+          "images/32yarımyıl/2.png",
+          "images/32yarımyıl/3.png"
+        ],
+        quiz: {
+          question: "Bu seneyi kiminle kapatmak istiyorum? (cevap: seninle)",
+          answers: ["seninle", "seni", "sen"]
+        }
+      },
+
+      "2026-01-01": {
+        title: "Gün 33 – Yeni Yıl",
+        text: "",
+        photos: [
+          "images/33yeniyıl/1.png",
+          "images/33yeniyıl/2.png",
+          "images/33yeniyıl/3.png",
+          "images/33yeniyıl/4.png",
+          "images/33yeniyıl/5.png"
+        ],
+        quiz: {
+          question: "Yeni yıl kaç? (cevap: 2026)",
+          answers: ["2026"]
+        }
+      }
+    };
+  </script>
+
+  <!-- ANA ÇALIŞTIRICI -->
+  <script>
+    (function init() {
+      const today = new Date(2025, 10, 30); // ÖNİZLEME İÇİN SABİT TARİH
+
+      const todayDateOnly = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate()
+      );
+
+      const seasonStart = new Date(SEASON_YEAR, 10, 30); // 30 Kasım
+      const seasonEnd = new Date(SEASON_YEAR + 1, 0, 1); // 1 Ocak
+
+      const statusEl = document.getElementById("status");
+      const noteSection = document.getElementById("note-section");
+      const noteTitleEl = document.getElementById("note-title");
+      const noteTextEl = document.getElementById("note-text");
+      const photosEl = document.getElementById("photos");
+      const dayPillEl = document.getElementById("day-pill");
+      const rangeTextEl = document.getElementById("range-text");
+      const quizArea = document.getElementById("quiz-area");
+      const quizQuestionEl = document.getElementById("quiz-question");
+      const quizAnswerInput = document.getElementById("quiz-answer");
+      const quizSubmitBtn = document.getElementById("quiz-submit");
+      const quizFeedbackEl = document.getElementById("quiz-feedback");
+      const cardEl = document.querySelector(".card");
+      const dayCounterEl = document.getElementById("day-counter");
+
+      const oneDayMs = 1000 * 60 * 60 * 24;
+
+      if (statusEl) {
+        statusEl.classList.add("hidden");
+        statusEl.textContent = "";
+      }
+
+      rangeTextEl.textContent = `30 Kasım ${SEASON_YEAR} – 1 Ocak ${SEASON_YEAR + 1}`;
+
+      if (dayPillEl) {
+        dayPillEl.children[0].textContent = "Bugün";
+        dayPillEl.children[1].textContent = today.toLocaleDateString("tr-TR", {
+          day: "2-digit",
+          month: "2-digit"
+        });
+      }
+
+      const idx =
+        Math.floor((todayDateOnly - seasonStart) / oneDayMs) + 1;
+
+      renderCalendar(todayDateOnly, idx);
+
+      if (dayCounterEl) {
+        const startDateOnly = new Date(
+          RELATION_START.getFullYear(),
+          RELATION_START.getMonth(),
+          RELATION_START.getDate()
+        );
+        const diffMs = todayDateOnly - startDateOnly;
+        const diffDays = Math.floor(diffMs / oneDayMs) + 1;
+
+        if (diffDays > 0) {
+          dayCounterEl.textContent = `Bugün bizim ${diffDays}. günümüz 💫`;
+        }
+      }
+
+      if (todayDateOnly < seasonStart) {
+        if (statusEl) {
+          statusEl.classList.remove("hidden");
+          statusEl.textContent =
+            "Takvimimiz henüz başlamadı. İlk not 30 Kasım'da açılacak. 💌";
+        }
+        return;
+      }
+
+      if (todayDateOnly > seasonEnd) {
+        if (statusEl) {
+          statusEl.classList.remove("hidden");
+          statusEl.textContent =
+            "Bu küçük takvim görevini tamamladı. Umarım her sayfası seni gülümsetmiştir. ✨";
+        }
+        return;
+      }
+
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const day = String(today.getDate()).padStart(2, "0");
+      const key = `${year}-${month}-${day}`;
+      const entry = entries[key];
+
+      if (!entry) {
+        if (statusEl) {
+          statusEl.classList.remove("hidden");
+          statusEl.textContent =
+            "Bugün için not henüz eklenmemiş gibi görünüyor. (Bu kısmı sen hazırlarken görüyorsun 💻)";
+        }
+        return;
+      }
+
+      noteSection.hidden = true;
+
+      function renderEntryContent() {
+        noteSection.hidden = false;
+        const safeIdx = idx > 0 ? idx : 1;
+        noteTitleEl.textContent = entry.title || `Gün ${safeIdx}`;
+        noteTextEl.textContent = entry.text || "";
+
+        photosEl.innerHTML = "";
+        if (Array.isArray(entry.photos) && entry.photos.length > 0) {
+          entry.photos.forEach((src) => {
+            const wrapper = document.createElement("div");
+            wrapper.className = "photo";
+
+            if (typeof src === "string" && src.includes("-full")) {
+              wrapper.classList.add("photo--full");
+            }
+
+            const img = document.createElement("img");
+            img.src = src;
+            img.alt = "Bugüne ait bir fotoğraf";
+            wrapper.appendChild(img);
+            photosEl.appendChild(wrapper);
+          });
+        }
+      }
+
+      function triggerAnniversaryEffects() {
+        if (!entry.isAnniversary) return;
+
+        if (cardEl) {
+          cardEl.classList.add("anniversary");
+        }
+
+        const sound = document.getElementById("confetti-sound");
+        if (sound) {
+          sound.currentTime = 0;
+          sound.play().catch(() => {});
+        }
+
+        if (window.confetti) {
+          const duration = 3000;
+          const end = Date.now() + duration;
+
+          (function frame() {
+            confetti({
+              particleCount: 5,
+              spread: 80,
+              origin: { x: Math.random(), y: 0.3 }
+            });
+            if (Date.now() < end) requestAnimationFrame(frame);
+          })();
+        }
+      }
+
+      if (
+        entry.quiz &&
+        entry.quiz.question &&
+        quizArea &&
+        quizQuestionEl &&
+        quizSubmitBtn &&
+        quizAnswerInput &&
+        quizFeedbackEl
+      ) {
+        quizArea.hidden = false;
+        quizQuestionEl.textContent = entry.quiz.question;
+        quizAnswerInput.value = "";
+        quizFeedbackEl.textContent = "";
+
+        const acceptedAnswers = (entry.quiz.answers || []).map((a) =>
+          String(a).toLowerCase().trim()
+        );
+
+        quizSubmitBtn.onclick = function () {
+          const user = quizAnswerInput.value.toLowerCase().trim();
+          if (!user) {
+            quizFeedbackEl.textContent = "Azıcık düşün, bir şeyler yaz. 💭";
+            return;
+          }
+
+          if (acceptedAnswers.includes(user)) {
+            quizFeedbackEl.textContent =
+              "TAM İSABET! Bugünün sayfası senin. 💖";
+            renderEntryContent();
+            triggerAnniversaryEffects();
+          } else {
+            quizFeedbackEl.textContent =
+              "Bence bir daha düşün. Küçük bir ipucu: anılar. 😉";
+          }
+        };
+
+        quizAnswerInput.addEventListener("keydown", function (e) {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            quizSubmitBtn.click();
+          }
+        });
+      } else {
+        renderEntryContent();
+      }
+    })();
+
+    function renderCalendar(todayDateOnly, idx) {
+      const root = document.getElementById("calendar-root");
+      if (!root) return;
+
+      const monthNames = [
+        "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
+        "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
+      ];
+
+      const year = todayDateOnly.getFullYear();
+      const month = todayDateOnly.getMonth();
+
+      const first = new Date(year, month, 1);
+      const last = new Date(year, month + 1, 0);
+
+      const firstWeekday = (first.getDay() + 6) % 7;
+      const totalDays = last.getDate();
+
+      const seasonStart = new Date(SEASON_YEAR, 10, 30);
+
+      let dayLabel = "";
+      if (todayDateOnly < seasonStart) {
+        dayLabel = "Takvim henüz başlamadı 💌";
+      } else if (idx > 0) {
+        dayLabel = `${idx}. günümüz 🥬`;
+      }
+
+      let html = `
+        <div class="calendar-box">
+          <div class="calendar-header">
+            <span class="calendar-month">${monthNames[month]} ${year}</span>
+            <span class="calendar-counter">${dayLabel}</span>
+          </div>
+          <div class="calendar-grid">
+            <div class="calendar-weekday">Pzt</div>
+            <div class="calendar-weekday">Sal</div>
+            <div class="calendar-weekday">Çar</div>
+            <div class="calendar-weekday">Per</div>
+            <div class="calendar-weekday">Cum</div>
+            <div class="calendar-weekday">Cmt</div>
+            <div class="calendar-weekday">Paz</div>
+      `;
+
+      for (let i = 0; i < firstWeekday; i++) {
+        html += `<div class="calendar-day empty"></div>`;
+      }
+
+      const todayDay = todayDateOnly.getDate();
+
+      for (let d = 1; d <= totalDays; d++) {
+        const isToday = d === todayDay;
+        const cls = "calendar-day" + (isToday ? " today" : "");
+        html += `<div class="${cls}">${d}</div>`;
+      }
+
+      html += `</div></div>`;
+      root.innerHTML = html;
+    }
+  </script>
+
+  <!-- iOS autoscroll -->
+  <script>
+    (function autoScrollIOS() {
+      var ua = window.navigator.userAgent || "";
+      var isIOS = /iP(hone|od|ad)/.test(ua);
+      var isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+
+      if (!isIOS || !isSafari) {
+        return;
+      }
+
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          window.scrollTo(0, 1);
+        }, 200);
+      });
+    })();
+  </script>
+
+  <!-- ÖNİZLEME MODU -->
+  <script>
+    (function setupPreview() {
+      const hasPreviewHash = window.location.hash === "#preview";
+      if (!hasPreviewHash) return;
+
+      const statusEl = document.getElementById("status");
+      const noteSection = document.getElementById("note-section");
+      const noteTitleEl = document.getElementById("note-title");
+      const noteTextEl = document.getElementById("note-text");
+      const photosEl = document.getElementById("photos");
+      const dayPillEl = document.getElementById("day-pill");
+      const quizArea = document.getElementById("quiz-area");
+
+      if (
+        !statusEl ||
+        !noteSection ||
+        !noteTitleEl ||
+        !noteTextEl ||
+        !photosEl ||
+        !dayPillEl
+      ) {
+        return;
+      }
+
+      if (quizArea) quizArea.hidden = true;
+
+      dayPillEl.children[0].textContent = "Önizleme";
+      dayPillEl.children[1].textContent = "Tüm günler";
+
+      statusEl.classList.remove("hidden");
+      statusEl.textContent =
+        "Önizleme modu: Aşağıdan bir tarih seçip o güne yazdığın notu görebilirsin.";
+
+      const previewBar = document.createElement("div");
+      previewBar.style.marginTop = "10px";
+      previewBar.style.display = "flex";
+      previewBar.style.gap = "8px";
+      previewBar.style.alignItems = "center";
+      previewBar.style.fontSize = "0.85rem";
+
+      const label = document.createElement("label");
+      label.textContent = "Gün seç:";
+
+      const select = document.createElement("select");
+      select.style.flex = "1";
+
+      if (typeof entries !== "undefined") {
+        const keys = Object.keys(entries || {}).sort();
+
+        keys.forEach((key) => {
+          const option = document.createElement("option");
+          option.value = key;
+
+          const d = new Date(key);
+          if (!isNaN(d)) {
+            option.textContent = d.toLocaleDateString("tr-TR", {
+              day: "2-digit",
+              month: "2-digit"
+            });
+          } else {
+            option.textContent = key;
+          }
+
+          select.appendChild(option);
+        });
+
+        previewBar.appendChild(label);
+        previewBar.appendChild(select);
+        statusEl.appendChild(previewBar);
+
+        function renderEntry(dateKey) {
+          const entry = entries[dateKey];
+          if (!entry) return;
+
+          noteSection.hidden = false;
+          noteTitleEl.textContent = entry.title || "";
+          noteTextEl.textContent = entry.text || "";
+
+          photosEl.innerHTML = "";
+          if (Array.isArray(entry.photos) && entry.photos.length > 0) {
+            entry.photos.forEach((src) => {
+              const wrapper = document.createElement("div");
+              wrapper.className = "photo";
+
+              if (typeof src === "string" && src.includes("-full")) {
+                wrapper.classList.add("photo--full");
+              }
+
+              const img = document.createElement("img");
+              img.src = src;
+              img.alt = "Bugüne ait bir fotoğraf";
+              wrapper.appendChild(img);
+              photosEl.appendChild(wrapper);
+            });
+          }
+        }
+
+        if (keys.length > 0) {
+          renderEntry(keys[0]);
+        }
+
+        select.addEventListener("change", function () {
+          renderEntry(this.value);
+        });
+      }
+    })();
+  </script>
+
+  <!-- MÜZİK -->
+  <script>
+    (function setupMusic() {
+      const audio = document.getElementById("bg-music");
+      const toggle = document.getElementById("music-toggle");
+      const volume = document.getElementById("music-volume");
+
+      if (!audio || !toggle || !volume) return;
+
+      audio.volume = 0.2;
+
+      toggle.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play().catch(() => {});
+          toggle.textContent = "⏸";
+        } else {
+          audio.pause();
+          toggle.textContent = "▶";
+        }
+      });
+
+      volume.addEventListener("input", () => {
+        audio.volume = Number(volume.value);
+      });
+    })();
+  </script>
+</body>
+</html>
