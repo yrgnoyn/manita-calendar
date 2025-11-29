@@ -72,6 +72,8 @@
 
     html {
       min-height: 100%;
+      background: linear-gradient(180deg, #0f0f15 0%, #1a1a26 100%);
+      background-color: #0f0f15;
     }
 
     body {
@@ -87,6 +89,8 @@
       align-items: center;
       justify-content: center;
       padding: 16px;
+      padding-top: calc(16px + env(safe-area-inset-top));
+      padding-bottom: calc(16px + env(safe-area-inset-bottom));
       color: #f3f0ff;
       position: relative;
       overflow-x: hidden;
