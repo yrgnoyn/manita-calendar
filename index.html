@@ -13,8 +13,8 @@
 
   <style>
     :root {
-      --bg-top: #0f0f15;
-      --bg-bottom: #1a1a26;
+      --bg-top: #12121B;
+      --bg-bottom: #12121B;
       --card-bg: #14121c;
       --card-border: rgba(255, 255, 255, 0.16);
       --accent: #f28b82;
@@ -37,7 +37,7 @@
       left: -300px;
       width: calc(100% + 600px);
       height: calc(100% + 1200px);
-      z-index: 0; /* arkaya değil, body'nin üstüne gelsin */
+      z-index: 0;
       pointer-events: none;
 
       background-image: url("data:image/svg+xml;utf8,\
@@ -69,8 +69,8 @@
     body {
       margin: 0;
       padding: 0;
-      background-color: #1a1a1a; /* telefon çerçevesi & overscroll için */
-      overscroll-behavior: none;  /* mobilde lastik gibi beyaz esnemeyi kapatır */
+      background-color: #12121B; /* telefon çerçevesi & overscroll */
+      overscroll-behavior: none;
     }
 
     html {
@@ -80,7 +80,7 @@
     body {
       font-family: "Poppins", sans-serif;
       font-weight: 400;
-      background: linear-gradient(180deg, #0f0f15 0%, #1a1a26 100%);
+      background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
       background-repeat: no-repeat;
       background-size: cover;
 
@@ -112,7 +112,7 @@
         0 0 20px rgba(255, 200, 230, 0.15),
         0 18px 50px rgba(0, 0, 0, 0.45);
       border: 1px solid rgba(255, 255, 255, 0.18);
-      z-index: 1; /* emojili pattern'in üstünde dursun */
+      z-index: 1;
     }
 
     .card.anniversary {
@@ -261,7 +261,6 @@
       transform: scale(1.02);
     }
 
-    /* Tam görünmesini istediğin fotolar için */
     .photo.photo--full {
       width: 100%;
       aspect-ratio: auto;
@@ -1009,7 +1008,7 @@
   <!-- ANA ÇALIŞTIRICI -->
   <script>
     (function init() {
-      const today = new Date(); // ÖNİZLEME İÇİN SABİT TARİH
+      const today = new Date();
 
       const todayDateOnly = new Date(
         today.getFullYear(),
