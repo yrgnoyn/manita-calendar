@@ -1,8 +1,60 @@
 diff --git a/index.html b/index.html
-index b68a91268e2625699b21d6e8f51e972e63444985..5afc60d404383406e1af2ca70708638b1a5478c4 100644
+index b68a91268e2625699b21d6e8f51e972e63444985..c73ffc415220fe814f475f7c584d6637f08a81b9 100644
 --- a/index.html
 +++ b/index.html
-@@ -50,65 +50,69 @@
+@@ -1,114 +1,118 @@
+ <!DOCTYPE html>
+ <html lang="tr">
+ <head>
+   <meta charset="UTF-8" />
+   <title>Manita Calendar 🥬</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
++  <meta name="theme-color" content="#0f0f15" />
+ 
+   <link
+     href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Poppins:wght@300;400;500&display=swap"
+     rel="stylesheet"
+   />
+ 
+   <style>
+     :root {
+       --bg-top: #0f0f15;
+       --bg-bottom: #1a1a26;
+       --card-bg: #14121c;
+       --card-border: rgba(255, 255, 255, 0.16);
+       --accent: #f28b82;
+       --accent-soft: #ffc7b7;
+       --text-main: #f3f0ff;
+       --text-soft: #b3aec9;
++
++      color-scheme: dark;
+     }
+ 
+     * {
+       box-sizing: border-box;
+       margin: 0;
+       padding: 0;
+     }
+ 
+     /* Emojili pattern */
+     body::before {
+       content: "";
+       position: fixed;
+       top: -600px;
+       left: -300px;
+       width: calc(100% + 600px);
+       height: calc(100% + 1200px);
+       z-index: -1;
+       pointer-events: none;
+ 
+       background-image: url("data:image/svg+xml;utf8,\
+     <svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'>\
+       <text x='10' y='50' font-size='38' opacity='0.40'>🥬</text>\
+       <text x='90' y='120' font-size='34' opacity='0.40'>❤️</text>\
+     </svg>");
+       background-repeat: repeat;
+       background-size: 160px 160px;
+ 
        opacity: 0.25;
        animation: driftSmooth 110s linear infinite;
        will-change: transform;
@@ -20,31 +72,38 @@ index b68a91268e2625699b21d6e8f51e972e63444985..5afc60d404383406e1af2ca70708638b
        }
      }
  
-     html,
-     body {
-       margin: 0;
-       padding: 0;
-     }
- 
+-    html,
+-    body {
+-      margin: 0;
+-      padding: 0;
+-    }
+-
      html {
        min-height: 100%;
++      margin: 0;
++      padding: 0;
 +      background: linear-gradient(180deg, #0f0f15 0%, #1a1a26 100%);
 +      background-color: #0f0f15;
      }
  
      body {
++      min-height: 100vh;
++      min-height: calc(100vh + env(safe-area-inset-top) + env(safe-area-inset-bottom));
++      margin: 0;
++      padding: 16px;
        font-family: "Poppins", sans-serif;
        font-weight: 400;
        background: linear-gradient(180deg, #0f0f15 0%, #1a1a26 100%);
        background-repeat: no-repeat;
        background-size: cover;
- 
-       min-height: 100vh;
-       margin: 0;
+-
+-      min-height: 100vh;
+-      margin: 0;
++      background-color: #0f0f15;
        display: flex;
        align-items: center;
        justify-content: center;
-       padding: 16px;
+-      padding: 16px;
 +      padding-top: calc(16px + env(safe-area-inset-top));
 +      padding-bottom: calc(16px + env(safe-area-inset-bottom));
        color: #f3f0ff;
