@@ -37,7 +37,7 @@
       left: -300px;
       width: calc(100% + 600px);
       height: calc(100% + 1200px);
-      z-index: -1;
+      z-index: 0; /* arkaya değil, body'nin üstüne gelsin */
       pointer-events: none;
 
       background-image: url("data:image/svg+xml;utf8,\
@@ -67,10 +67,10 @@
 
     html,
     body {
-      background-color: #1a1a1a; /* Koyu arka plan + overscroll fix */
       margin: 0;
       padding: 0;
-      overscroll-behavior: none;
+      background-color: #1a1a1a; /* telefon çerçevesi & overscroll için */
+      overscroll-behavior: none;  /* mobilde lastik gibi beyaz esnemeyi kapatır */
     }
 
     html {
@@ -85,7 +85,6 @@
       background-size: cover;
 
       min-height: 100vh;
-      margin: 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -113,6 +112,7 @@
         0 0 20px rgba(255, 200, 230, 0.15),
         0 18px 50px rgba(0, 0, 0, 0.45);
       border: 1px solid rgba(255, 255, 255, 0.18);
+      z-index: 1; /* emojili pattern'in üstünde dursun */
     }
 
     .card.anniversary {
@@ -261,6 +261,7 @@
       transform: scale(1.02);
     }
 
+    /* Tam görünmesini istediğin fotolar için */
     .photo.photo--full {
       width: 100%;
       aspect-ratio: auto;
@@ -1008,7 +1009,7 @@
   <!-- ANA ÇALIŞTIRICI -->
   <script>
     (function init() {
-      const today = new Date();
+      const today = new Date(); // ÖNİZLEME İÇİN SABİT TARİH
 
       const todayDateOnly = new Date(
         today.getFullYear(),
