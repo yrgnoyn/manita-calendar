@@ -53,13 +53,12 @@
       will-change: transform;
     }
 
-    /* 1 OCAK – sinema + yumuşak kış teması */
+    /* 1 OCAK – sinema + kış teması (quiz doğru cevaplanınca açılacak) */
     body.winter-cinema {
       --bg-top: #060816;
       --bg-bottom: #05050d;
     }
 
-    /* 1 Ocak'ta emojiler 🎬 + 🍿 olacak */
     body.winter-cinema::before {
       background-image: url("data:image/svg+xml;utf8,\
 <svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'>\
@@ -67,10 +66,10 @@
   <text x='90' y='120' font-size='38' opacity='0.40'>🍿</text>\
 </svg>");
       background-size: 190px 190px;
-      opacity: 0.22;
+      opacity: 0.24;
     }
 
-    /* yumuşak, geniş kar taneleri – grid gibi değil */
+    /* Daha hızlı, belirgin kar */
     body.winter-cinema::after {
       content: "";
       position: fixed;
@@ -89,8 +88,9 @@
 </svg>");
       background-repeat: repeat;
       background-size: 260px 260px;
-      opacity: 0.5;
-      animation: softSnow 55s linear infinite;
+
+      opacity: 0.75;
+      animation: softSnow 18s linear infinite;
     }
 
     @keyframes driftSmooth {
@@ -100,15 +100,16 @@
     }
 
     @keyframes softSnow {
-      0%   { transform: translateY(-60px); }
-      100% { transform: translateY(60px); }
+      0%   { transform: translateY(-120px); }
+      50%  { transform: translateY(0); }
+      100% { transform: translateY(120px); }
     }
 
     html,
     body {
       margin: 0;
       padding: 0;
-      background-color: #12121B; /* telefon çerçevesi & overscroll */
+      background-color: #12121B;
       overscroll-behavior: none;
     }
 
@@ -157,33 +158,6 @@
     .card.anniversary {
       box-shadow: 0 0 40px rgba(255, 192, 203, 0.35);
       border-color: rgba(255, 200, 230, 0.6);
-    }
-
-    /* Kart & takvim üst kenarında hafif kar/buz birikmesi – sadece winter modda */
-    body.winter-cinema .card,
-    body.winter-cinema .calendar-box {
-      overflow: visible;
-    }
-
-    body.winter-cinema .card::before,
-    body.winter-cinema .calendar-box::before {
-      content: "";
-      position: absolute;
-      left: -10px;
-      right: -10px;
-      top: -14px;
-      height: 26px;
-      pointer-events: none;
-      z-index: 5;
-
-      background:
-        radial-gradient(circle at 12% 140%, rgba(255,255,255,0.97) 0, rgba(255,255,255,0) 70%),
-        radial-gradient(circle at 40% 135%, rgba(255,255,255,0.96) 0, rgba(255,255,255,0) 70%),
-        radial-gradient(circle at 68% 140%, rgba(255,255,255,0.97) 0, rgba(255,255,255,0) 70%),
-        radial-gradient(circle at 90% 140%, rgba(255,255,255,0.96) 0, rgba(255,255,255,0) 70%);
-      border-radius: 999px;
-      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.55));
-      opacity: 0.95;
     }
 
     .card-header {
@@ -332,22 +306,31 @@
       aspect-ratio: auto;
     }
 
-    .photo.photo--full img,
-    .photo.photo--full video {
+    .photo.photo--full img {
       width: 100%;
       height: auto;
       object-fit: contain;
-      display: block;
     }
 
-    /* 33. gün video player'ı */
+    /* 33. gün – sinema ekranı gibi video */
     .video-wrapper {
-      background: radial-gradient(circle at top left, rgba(255, 200, 230, 0.22), rgba(0, 0, 0, 0.9));
-      border: 1px solid rgba(255, 255, 255, 0.28);
+      position: relative;
+      width: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      margin-top: 12px;
+      background: radial-gradient(circle at top, rgba(255, 200, 230, 0.18), #050510);
+      padding: 10px;
+      box-shadow:
+        0 22px 45px rgba(0, 0, 0, 0.9),
+        0 0 30px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.22);
     }
 
     .video-wrapper video {
-      border-radius: inherit;
+      width: 100%;
+      display: block;
+      border-radius: 18px;
       background: #000;
     }
 
@@ -376,8 +359,7 @@
     }
 
     .video-play-btn--playing {
-      opacity: 0.6;
-      background: rgba(0, 0, 0, 0.4);
+      opacity: 0;
     }
 
     .hint {
@@ -561,7 +543,7 @@
       line-height: 1.45;
     }
 
-    /* Bilet pop-up – arka planı kapatmadan, alttan kayarak */
+    /* Bilet pop-up – alttan kayarak çıkan */
     .ticket-popup {
       position: fixed;
       left: 0;
@@ -778,6 +760,7 @@
   <script>
     const SEASON_YEAR = 2025;
     const RELATION_START = new Date(2025, 4, 12);
+    const NEW_YEAR_KEY = "2026-01-01";
 
     const entries = {
       "2025-11-30": {
@@ -916,7 +899,7 @@
 
       "2025-12-10": {
         title: "Gün 11 – Ufak Bir İtiraf",
-        text: "Evet başlık seni biraz şaşırtabilir ama bugün diğer günlerden farklı  olarak hislerimden değil hala gerçeğini bilmediğin birşeyi itiraf edicem. Akınsoykırıma geldiğin gün Senayla seni okulun dış kapısında görmüştüm ve cidden içimde asla tarif edemeyeceğim hisler yaşamıştım ve çok sana doğru koşmak istemiştim. Ama aynı çantanda gördüğün hediyeyi kendi üstüme alınmadığım gibi uzaktan benzetiyorumdur başkasına nasıl gelsin buraya demiştim. Hatta senin olabilme ihtimalin bile o kadar heyecanlandırmıştıki kapıya doğru bakamayıp arkada birşeylerle uğraşıyorum gibi yapmıştım. Manitamın bu kadar eşek olduğunu daha kestiremediğim zamanlarmış. O kadar bastırdım ve kafamdan silmeye çalıştımki sen olabilme ihtimalini gerçekten seni görünce ne yapacağımı bilemedim. Özür dilerim beklediğin tepkiyi veremediğim ve bu olayı senden sakladığım için. Ve bana bu kadar değer verdiğin için teşekkür ederim. He bide gs golüne benle sevindiğin için 😜​.  ",
+        text: "Evet başlık seni biraz şaşırtabilir ama bugün diğer günlerden farklı  olarak hislerimden değil hala gerçeğini bilmediğin birşeyi itiraf edicem. Akınsoykırıma geldiğin gün Senayla seni okulun dış kapısında görmüştüm ve cidden içimde asla tarif edemeyeceğim hisler yaşamıştım ve çok sana doğru koşmak istemiştim. Ama aynı çantanda gördüğüm hediyeyi kendi üstüme alınmadığım gibi uzaktan benzetiyorumdur başkasına nasıl gelsin buraya demiştim. Hatta senin olabilme ihtimalin bile o kadar heyecanlandırmıştıki kapıya doğru bakamayıp arkada birşeylerle uğraşıyorum gibi yapmıştım. Manitamın bu kadar eşek olduğunu daha kestiremediğim zamanlarmış. O kadar bastırdım ve kafamdan silmeye çalıştımki sen olabilme ihtimalini gerçekten seni görünce ne yapacağımı bilemedim. Özür dilerim beklediğin tepkiyi veremediğim ve bu olayı senden sakladığım için. Ve bana bu kadar değer verdiğin için teşekkür ederim. He bide gs golüne benle sevindiğin için 😜​.  ",
         photos: [
           "images/11ufakbiritiraf/1.png"
         ],
@@ -1202,7 +1185,8 @@
       "2026-01-01": {
         title: "Gün 33 – Yeni Yıl",
         text: "",
-        video: "videos/33yeniyil.mp4", /* videonu bu isme göre koy */
+        /* sadece kısa video – aşağıdaki yolu kendi dosyana göre düzenleyebilirsin */
+        video: "videos/33.mp4",
         photos: [],
         quiz: {
           question: "Yeni yıl kaç? (cevap: 2026)",
@@ -1213,28 +1197,11 @@
     };
   </script>
 
-  <!-- Yardımcı fonksiyonlar: kış + sinema teması & bilet popup -->
-  <script>
-    function enableWinterCinemaTheme() {
-      document.body.classList.add("winter-cinema");
-    }
-
-    function showTicketPopup() {
-      const popup = document.getElementById("ticket-popup");
-      const goBtn = document.getElementById("ticket-go-btn");
-      if (!popup || !goBtn) return;
-
-      popup.classList.add("visible");
-      goBtn.onclick = function () {
-        window.location.href = "sinema.html";
-      };
-    }
-  </script>
-
   <!-- ANA ÇALIŞTIRICI -->
   <script>
     (function init() {
-      const today = new Date(2025, 12, 1); // canlıda gerçek gün
+      /* burada istersen manuel tarih tutuyordun; gerçek gün için new Date() yap */
+      const today = new Date(2025, 12, 1); // test için değiştirebilirsin
 
       const todayDateOnly = new Date(
         today.getFullYear(),
@@ -1259,6 +1226,9 @@
       const quizFeedbackEl = document.getElementById("quiz-feedback");
       const cardEl = document.querySelector(".card");
       const dayCounterEl = document.getElementById("day-counter");
+
+      const ticketPopup = document.getElementById("ticket-popup");
+      const ticketGoBtn = document.getElementById("ticket-go-btn");
 
       const oneDayMs = 1000 * 60 * 60 * 24;
 
@@ -1331,14 +1301,27 @@
 
       noteSection.hidden = true;
 
+      function showTicketPopup() {
+        if (!ticketPopup) return;
+        ticketPopup.classList.add("visible");
+      }
+
+      if (ticketGoBtn) {
+        ticketGoBtn.addEventListener("click", function () {
+          window.location.href = "sinema.html";
+        });
+      }
+
       function renderEntryContent() {
         noteSection.hidden = false;
 
+        // Eski özel mesaj kutusunu temizle
         const existingSpecial = noteSection.querySelector(".special-message");
         if (existingSpecial) {
           existingSpecial.remove();
         }
 
+        // Eğer bu güne özel bir mesaj varsa, en üste ekle
         if (entry.specialMessage) {
           const msgBox = document.createElement("div");
           msgBox.className = "special-message";
@@ -1352,19 +1335,33 @@
 
         photosEl.innerHTML = "";
 
+        // 33. gün video
         if (entry.video) {
           const wrapper = document.createElement("div");
-          wrapper.className = "photo photo--full video-wrapper";
+          wrapper.className = "video-wrapper";
 
           const video = document.createElement("video");
           video.src = entry.video;
           video.controls = true;
           video.playsInline = true;
+          video.id = "newyear-video";
+          wrapper.appendChild(video);
 
           const playBtn = document.createElement("button");
           playBtn.type = "button";
           playBtn.className = "video-play-btn";
           playBtn.textContent = "▶";
+          wrapper.appendChild(playBtn);
+
+          function updateBtn() {
+            if (video.paused) {
+              playBtn.classList.remove("video-play-btn--playing");
+              playBtn.textContent = "▶";
+            } else {
+              playBtn.classList.add("video-play-btn--playing");
+              playBtn.textContent = "⏸";
+            }
+          }
 
           playBtn.addEventListener("click", () => {
             if (video.paused) {
@@ -1374,25 +1371,22 @@
             }
           });
 
-          video.addEventListener("play", () => {
-            playBtn.classList.add("video-play-btn--playing");
-            playBtn.textContent = "⏸";
-          });
+          video.addEventListener("play", updateBtn);
+          video.addEventListener("pause", updateBtn);
 
-          video.addEventListener("pause", () => {
-            playBtn.classList.remove("video-play-btn--playing");
-            playBtn.textContent = "▶";
-          });
-
-          /* 1 Ocak videosu bitince bilet popupı gelsin */
-          if (key === "2026-01-01") {
+          // Video bittiğinde sinema bileti pop-up
+          if (key === NEW_YEAR_KEY) {
+            let shown = false;
             video.addEventListener("ended", () => {
-              showTicketPopup();
-            }, { once: true });
+              playBtn.classList.remove("video-play-btn--playing");
+              playBtn.textContent = "▶";
+              if (!shown) {
+                shown = true;
+                showTicketPopup();
+              }
+            });
           }
 
-          wrapper.appendChild(video);
-          wrapper.appendChild(playBtn);
           photosEl.appendChild(wrapper);
         } else if (Array.isArray(entry.photos) && entry.photos.length > 0) {
           entry.photos.forEach((src) => {
@@ -1469,15 +1463,13 @@
             quizFeedbackEl.textContent =
               "AFERİN BENİM BAL KÜPÜME! 💖";
 
-            if (key === "2026-01-01") {
-              /* 1 Ocak: kış + sinema teması aç, sonra video görünsün.
-                 Video bitince popup gelecek. */
-              enableWinterCinemaTheme();
-              renderEntryContent();
-            } else {
-              renderEntryContent();
-              triggerAnniversaryEffects();
+            // 1 Ocak için sinema + kış teması
+            if (key === NEW_YEAR_KEY) {
+              document.body.classList.add("winter-cinema");
             }
+
+            renderEntryContent();
+            triggerAnniversaryEffects();
           } else {
             quizFeedbackEl.textContent =
               "Ya yuuuhh! Nasıl bilemezsin.";
@@ -1492,6 +1484,7 @@
         });
       } else {
         renderEntryContent();
+        triggerAnniversaryEffects();
       }
     })();
 
@@ -1670,14 +1663,14 @@
 
           if (entry.video) {
             const wrapper = document.createElement("div");
-            wrapper.className = "photo photo--full video-wrapper";
+            wrapper.className = "video-wrapper";
 
             const video = document.createElement("video");
             video.src = entry.video;
             video.controls = true;
             video.playsInline = true;
-
             wrapper.appendChild(video);
+
             photosEl.appendChild(wrapper);
           } else if (Array.isArray(entry.photos) && entry.photos.length > 0) {
             entry.photos.forEach((src) => {
