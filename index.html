@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Manita Calendar 🥬</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#12121B" />
 
   <link
     href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Poppins:wght@300;400;500&display=swap"
@@ -12,8 +13,8 @@
 
   <style>
     :root {
-      --bg-top: #0f0f15;
-      --bg-bottom: #1a1a26;
+      --bg-top: #12121B;
+      --bg-bottom: #12121B;
       --card-bg: #14121c;
       --card-border: rgba(255, 255, 255, 0.16);
       --accent: #f28b82;
@@ -36,7 +37,7 @@
       left: -300px;
       width: calc(100% + 600px);
       height: calc(100% + 1200px);
-      z-index: -1;
+      z-index: 0;
       pointer-events: none;
 
       background-image: url("data:image/svg+xml;utf8,\
@@ -68,6 +69,8 @@
     body {
       margin: 0;
       padding: 0;
+      background-color: #12121B; /* telefon çerçevesi & overscroll */
+      overscroll-behavior: none;
     }
 
     html {
@@ -77,12 +80,11 @@
     body {
       font-family: "Poppins", sans-serif;
       font-weight: 400;
-      background: linear-gradient(180deg, #0f0f15 0%, #1a1a26 100%);
+      background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
       background-repeat: no-repeat;
       background-size: cover;
 
       min-height: 100vh;
-      margin: 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -110,6 +112,7 @@
         0 0 20px rgba(255, 200, 230, 0.15),
         0 18px 50px rgba(0, 0, 0, 0.45);
       border: 1px solid rgba(255, 255, 255, 0.18);
+      z-index: 1;
     }
 
     .card.anniversary {
@@ -258,7 +261,6 @@
       transform: scale(1.02);
     }
 
-    /* Tam görünmesini istediğin fotolar için */
     .photo.photo--full {
       width: 100%;
       aspect-ratio: auto;
@@ -567,60 +569,60 @@
 
     const entries = {
       "2025-11-30": {
-        title: "1-Her Şeyin Bir İlki Var",
+        title: "Gün 1 – Her Şeyin Bir İlki Var",
         text: "MERHABA HAYATIM. Bu takvimin ilk gününde bizim de ilk günümüzle başlamak tatlı olur diye düşündüm. Bakınca, o günden bu yana çok şey değişmiş. Samimiyetimiz artmış, birbirimiz hakkında bildiklerimiz artmış. Ama gerçekten, o günden beri yanına gelirken yaşadığım heyecan, seni ilk görünce yüzümde kendiliğinden oluşan gülümseme hep aynı kalmış. Dilerim, heyecanımız, mutluluğumuz ömür boyunca hep ilk günkü gibi saf ve temiz kalır. Dilerim ömür boyunca sohbetimiz muhabbetimiz eksik olmaz. Her mutluluğumuzda, üzüntümüzde, hayatlarımızda birine ihtiyaç duyduğumuz her anda birbirimizin yanında oluruz. Seni çok seviyorum bitanem. İyi ki varsın",
         photos: [
           "images/1ilkgün/1.png",
           "images/1ilkgün/2.png"
         ],
         quiz: {
-          question: "Bu günün teması neydi? (ipucu: klasör adı)",
-          answers: ["ilk gün", "ilkgün", "ilkgun"]
+          question: "İlk buluştuğumuz mekanın adı nedir?",
+          answers: ["starbucks"]
         }
       },
 
       "2025-12-01": {
         title: "Gün 2 – Sürpriz",
-        text: "",
+        text: "AŞKIM HOŞGELDİN YAAV. Bugün ne konuşacağız, bugün bence ilişkimizde ikimizinde çok önem verdiği birşey hakkında konuşcam. Şuan bu satırları yazarken de hem senin bu hediyeyi beklerkenki heyecanını hemde sana bu hediyeyi verdikten sonraki ilk tepkini görmeyi beklerkenki heyecanımı tahmin edebiliyorum. Eklediğim fotoğrafları olabildiğince kronolojik seçmeye çalıştım ve bu benim telefonumdan çekilmiş 2. fotoğrafın. Her ne kadar o an senin süprizini bozmuş olsamda bu fotoğrafa eve gidince kaç sefer baktığımı inan tahmin bile edemezsin. Özellikle o eşek eşek güldüğün fotoğrafa hala baktığımda sanki 6 7 ay öncesine gidiyor gibi hissediyorum. Bence ilişkimizde ikimizin de en iyi başardığı şeylerden biri sürpriz yapmak ama manitam benden önde maalesef. O yüzden birkaç hediye fikri daha buldum. ÇOK YAKINDA ONLARDA GELİYOOO. 😜😜",
         photos: [
           "images/2süpriz/1.png",
           "images/2süpriz/2.png",
           "images/2süpriz/3.png"
         ],
         quiz: {
-          question: "Bugünün kelimesi ne? (cevap: sürpriz)",
-          answers: ["sürpriz", "supriz", "sürpriz gün", "supriz gun"]
+          question: "TDK da karşılığı: Hiç beklenmediği için insanı şaşırtarak sevindiren ya da insanın üzüntüsüne yol açan olay olan kelime nasıl yazılır",
+          answers: ["sürpriz"]
         }
       },
 
       "2025-12-02": {
         title: "Gün 3 – Bakakalmak",
-        text: "",
+        text: "Yeni yeni tanıştığımız zamanlarda yaşamıştım en çok bu hissi. Bakakalmak. Aslında şaşkınlıkla belkide korkuyla alakalı bir kelime gibi geliyor ama konu sen olduğunda bakakalmak bende sadece hayran kalmak anlamına geliyor. Bu fotoğrafı attığını bile unutmuşsundur belki ama cidden en hala en sevdiğim fotoğraflarından biridir. O kadar güzel geliyorsunki bu fotoğrafta. Bu kız oha ya... diyebiliyorum bakınca sadece. Kendi güzelliğin dışında kalbinin güzelliğiyle  de hayatımı güzelleştirdin ve çok rahat söyleyebilirimki beni de daha iyi birisi yaptın. Ömrüm boyunca güzelliğinle mest olup sana saatlerce doya doya bakmak istiyorum. İyi ki hayatımdasın balım. ",
         photos: [
           "images/3bakakalmak/1.png"
         ],
         quiz: {
-          question: "Birine uzun uzun bakmaya ne deriz? (cevap: bakakalmak)",
-          answers: ["bakakalmak", "bakamakalmak"]
+          question: "Dünyanın en güzel insanı kimdir?",
+          answers: ["ben", "beyza", "melis beyza"]
         }
       },
 
       "2025-12-03": {
         title: "Gün 4 – Hayal Kurmak",
-        text: "",
+        text: "Belki sen hoşlanmıyorsun gerçek olmayacak diye ama seninle bir gelecek hayal etmekten o kadar büyük keyif alıyorumki. Sadece 5 yıl 10  yıl değil ömrümün son günlerinde yaşlı huysuz bi çiftken edeceğimiz kavgalara kadar hepsini düşünüp her yaşımda, ömrümün her anında sana tekrardan aşık oluyorum. İnşAllah sağlıklı, uzun, mutlu ve birlikte yıllarımız olur ve biz birbirimizle hayal kurmaktan asla vazgeçmeyiz sevgilim. Dilerim hayallerimizin üstüne çizikler attığımız bir ömür yaşarız. Seni çok seviyorum.",
         photos: [
           "images/4hayalkurmak/1.png",
           "images/4hayalkurmak/2-full.png"
         ],
         quiz: {
-          question: "Gelecek hakkında güzel şeyler düşünmeye ne denir? (cevap: hayal kurmak)",
-          answers: ["hayal kurmak", "hayalkurmak"]
+          question: "Hamzanın en büyük hayali nedir?",
+          answers: ["evlenmek", "beyzayı almak", "beyzayla gelecek kurmak", "beyza"]
         }
       },
 
       "2025-12-04": {
         title: "Gün 5 – Hata Yapmak & Affetmek",
-        text: "",
+        text: "Bugüne her şeyden önce özürle başlamak istiyorum. 6 ay bile olsa seni kırdığım, üzdüğüm, beklentilerini boşa çıkardığım şeyler yaşattım. Belki çoğunu istemeden yaşattım ama bunlar bahane olacak şeyler değil. Beni her seferinde affettiğin, hatalarımı yüzüme vurmadığın ve bana güvenip şans verdiğin içinde teşekkür ederim. Fotoğraftaki gün yani doğum gününde yaptığım hatadan sonra sana söz vermiştim. Kendimi affettirmekle alakalı, gerçekten çok içten diliyorumki bunu başarabilmişimdir. Bu fotoğraflarda gülüyor olman beni o günü biraz olsun daha iyi hatırlamama sebep oluyor ama asla tamamen kurtulamıyorum bu düşünceden. Çünkü ben hala o günün pişmanlığını yaşıyorum. Umarım sen benim kadar düşünmüyorsundur. Belki bazı şeyler her zaman aklımıza gelip içimizde bi keşke yaratacak şekilde kalacak ama o keşkelerin üstünü iyikilerle örtelim istiyorum. Sana keşkeden çok iyiki dedirtebilirim umarım. SENİ ÇOK SEVİYORUM",
         photos: [
           "images/5hatayapmaktelafietmek/1.png",
           "images/5hatayapmaktelafietmek/2.png",
@@ -628,14 +630,14 @@
           "images/5hatayapmaktelafietmek/4.png"
         ],
         quiz: {
-          question: "İlişkide en önemli süper güçlerden biri nedir? (cevap: affetmek)",
-          answers: ["affetmek", "af etmek"]
+          question: "Kendimi affetirmek için sana verdiğim hediye neydi?",
+          answers: ["dinazor", "peluş dinazor", "peluş"]
         }
       },
 
       "2025-12-05": {
         title: "Gün 6 – Beraber Olmak",
-        text: "",
+        text: "Hayatıma girdiğinden beridir böyle bir ihtiyacım olduğunu fark ettim. Eskiden birilerinin yanında olmamak kendimle baş başa kalmak için uğraşırken şimdi her fırsatımda beraber olalım diye uğraşmak beni çok garip hissettiriyor. İnsanın kendinden bile fazla ihtiyaç duyduğu birinin olması. Herhaldeki aşk buna deniyor. Herhangi bir şey yapmasak bile sadece yan yana durmak dizini dizimde ellerini elimde hissetmek bile dünyanın en keyifli anına dönüştürüyor o anı. Ve senin eksikliğini hissettiğim en ufak saniyede en keyifli anda bile bi burukluk yaratıyor. En güzel anılarımızı birlikte biriktirme dileğiyle. SENİ ÇOOOOOOOOOK SEVİYORUM ",
         photos: [
           "images/6beraberolmak/1-full.png",
           "images/6beraberolmak/2.png",
@@ -643,137 +645,137 @@
           "images/6beraberolmak/4.png"
         ],
         quiz: {
-          question: "Yan yana olmayı anlatan kelime? (cevap: beraber)",
-          answers: ["beraber", "birlikte"]
+          question: "Manitam yanımda olmayınca hissettiğim duygu",
+          answers: ["özlemek", "özlem"]
         }
       },
 
       "2025-12-06": {
-        title: "Gün 7 – Şebeklik Yapmak",
-        text: "",
+        title: "Gün 7 – Gözlerinin İçi Gülmek",
+        text: "İnsan sadece mimikleriyle gülmezmiş, gözlerinin kahvesinde boğulurken anladım. İnsan bazen en mimiksiz en donuk olan gözünün bebeğiyle gülermiş ve o gülücük hepsinden daha değerliymiş. Bana bakarken parlayan gözlerin beni hayatta en değerli hissettiren şeylerden birisi. Bana aşkla, sevgiyle bakan o gözlerin önüne hep onu daha da güldürecek şeylerle çıkarım umarım. Gözlerimizdeki, içimizdeki heyecanı umarım hiçbir zaman kaybetmeyiz. 1 çift kahverengi gözle uyanmak, yine o gözlere bakarken uykuya dalmak dileğiyle. Gözlerinin kahvesini çok seviyorum.",
         photos: [
           "images/7şebeklikyapmak/1.png",
           "images/7şebeklikyapmak/2.png",
           "images/7şebeklikyapmak/3.png"
         ],
         quiz: {
-          question: "Birlikte saçma sapan gülmeye, poz vermeye ne diyoruz? (cevap: şebeklik)",
-          answers: ["şebeklik", "sebeklik"]
+          question: "Manitanın gözleri hangi renk",
+          answers: ["kahverengi", "kahve"]
         }
       },
 
       "2025-12-07": {
         title: "Gün 8 – İyi Gün Kötü Gün",
-        text: "",
+        text: "Yattaki fotoğrafımızı sevmesende ben çok seviyorum ve mutlaka eklemem gerekmekteydi o yüzden 🤗​. 2. Fotoğraf her ne kadar kötü bir şeyden sonra çekilsede gerçekten manitam sağolsun ilişkimizde önemli bir zıplama yaşamamıza sebep oldu 😜. Seni o halde görmek beni gerçekten çok üzmüştü. Umarım hiçbir zaman ihtiyaç duymayız ama her kötü gününde en yakınında ve ne olursa olsun da seni asla yalnız bırakmayacağıma söz veriyorum. En mutlu günlerinde de seni hep gururla izliyor olucam. İyi günde kötü günde kusmukta sağlıkta iyi ki sen bitanem.​",
         photos: [
           "images/8iyigünkötügün/1.png",
           "images/8iyigünkötügün/2.png"
         ],
         quiz: {
-          question: "Hangi iki kelime birlikte söylenir: 'iyi gün ... gün'? (cevap: kötü)",
-          answers: ["kötü", "kotu", "kötü gün", "kotu gun"]
+          question: "Manitamın midesi bulanırken verdiğim poşet ne kokuyordu?",
+          answers: ["peynir", "poğaça", "peynirli poğaça", "bok"]
         }
       },
 
       "2025-12-08": {
-        title: "Gün 9 – Özel Günler",
-        text: "",
+        title: "Gün 9 – Günleri Özel Yapmak",
+        text: "İnsanların birbirlerinin özel günlerinde yanlarında olması onları değerli yapar. En azından ben böyle düşünürdüm. Tek özel günüm doğum günümde hep etrafımda kim var diye bakar o insanları kendim için değerli sanardım. Ama sonra anladımki en değerli insan özel günlerinde yanında olan değil en sıradan günü bile özel yapan insanmış. Kendimin bile unuttuğu günleri hatırlamama, yalnız bir gün değil her günün özel olabilceğini bana gösterdiğin için teşekkür ederim. Takvimimizdeki her günü bizim için özel şeylerle dolduruyor olmak beni çok mutlu ediyor. İyi ki varsın hayatım. Seni çok seviyorum",
         photos: [
           "images/9özelgündeğilgünleriözelyapan/1.png",
           "images/9özelgündeğilgünleriözelyapan/2.png"
         ],
         quiz: {
-          question: "Sevgililer günü, doğum günü gibi günlere ne deriz? (cevap: özel gün)",
-          answers: ["özel gün", "ozel gun", "özel günler", "ozel gunler"]
+          question: "Hamzanın 2. doğum günü nedir?",
+          answers: ["12 nisan", "19 nisan", "12 mayıs"]
         }
       },
 
       "2025-12-09": {
         title: "Gün 10 – Birini Çok Sevmek",
-        text: "",
+        text: "Ailemize, arkadaşlarımıza hep kullanıyoruz seni çok seviyorumu. Ne de olsa bunu ölçen biçen kimse yok diye. Peki gerçekten çok sevildiğimizi nerden anlayabiliriz? Ben gördümki çok seven insan sevdiği insana değil sevdiği insanın aldığı çiçeğe de değil o çiçeğin kuruyacak dallarına bile kıyamazmış. Bu fotoğrafı görünce fark etmiştim çok sevmenin ne kadar çok olabilceğini. Ve çok sevilmenin verdiği o güzel hissi. Bana yaşattığın tüm bu güzellikler için teşekkür ederim. Seni ÇOK seviyorum. İnşAllah hayatta hep kalbin kadar temiz insanlarla karşılaşırsın.",
         photos: [
           "images/10biriniçoksevmek/1.png"
         ],
         quiz: {
-          question: "Bu sayfada kimi 'çok' seviyorum? (cevap: seni)",
-          answers: ["seni", "sen", "manitam"]
+          question: "Hamza ve Beyza arasından kim diğerini daha çok seviyor? (sadece isim yaz)",
+          answers: ["hamza"]
         }
       },
 
       "2025-12-10": {
         title: "Gün 11 – Ufak Bir İtiraf",
-        text: "",
+        text: "Evet başlık seni biraz şaşırtabilir ama bugün diğer günlerden farklı  olarak hislerimden değil hala gerçeğini bilmediğin birşeyi itiraf edicem. Akınsoykırıma geldiğin gün Senayla seni okulun dış kapısında görmüştüm ve cidden içimde asla tarif edemeyeceğim hisler yaşamıştım ve çok sana doğru koşmak istemiştim. Ama aynı çantanda gördüğüm hediyeyi kendi üstüme alınmadığım gibi uzaktan benzetiyorumdur başkasına nasıl gelsin buraya demiştim. Hatta senin olabilme ihtimalin bile o kadar heyecanlandırmıştıki kapıya doğru bakamayıp arkada birşeylerle uğraşıyorum gibi yapmıştım. Manitamın bu kadar eşek olduğunu daha kestiremediğim zamanlarmış. O kadar bastırdım ve kafamdan silmeye çalıştımki sen olabilme ihtimalini gerçekten seni görünce ne yapacağımı bilemedim. Özür dilerim beklediğin tepkiyi veremediğim ve bu olayı senden sakladığım için. Ve bana bu kadar değer verdiğin için teşekkür ederim. He bide gs golüne benle sevindiğin için 😜​.  ",
         photos: [
           "images/11ufakbiritiraf/1.png"
         ],
         quiz: {
-          question: "Kalpten gelen saklı cümlelere ne deriz? (cevap: itiraf)",
-          answers: ["itiraf", "itiraf etmek"]
+          question: "Akınsoykırımın tarihi ne zamandı? (gün, ay, şeklinde)",
+          answers: ["17 Mayıs", "18 Mayıs"]
         }
       },
 
       "2025-12-11": {
         title: "Gün 12 – Tatlılık",
-        text: "",
+        text: "BU GÜN SADECE MANİTAMIN TATLILIĞINI KONUŞACAĞIIIZZ. Gerçekten böyle sevmek, güzel bulmak dışında seni o kadar tatlı buluyorumki. Gerçekten içim gidiyor, her hareketinde içim böyle sevgi doluyor resmen. 100 tane yavru kedi olan bi sokağa girmişim gibi hissediyorum. BİDE BEBEKLİĞİNDE ALLAHIM ORDA DA O KADAR TATLIKİİ OOOFFF BEN BUNDAN İSTİYOM BUNDAN ATAYIM TUTAYIM BUNU GÖBÜŞÜNE PPPUUUUPPP YAPİM YANAKLARINI SIKAM OOOFFFF. ÇOK SEVİYORUM SENİ",
         photos: [
           "images/12tatlılık/1.png",
           "images/12tatlılık/2.png"
         ],
         quiz: {
-          question: "Senin başka bir adı: aşırı ...... (cevap: tatlı)",
-          answers: ["tatlı", "tatli", "tatlılık", "tatlilik"]
+          question: "Dünyanın en tatlı insanı",
+          answers: ["ben", "beyza", "beyza alpir", "melis beyza alpir"]
         }
       },
 
       "2025-12-12": {
-        title: "Gün 13 – Gülmek",
-        text: "",
+        title: "Gün 13 – AYDÖNÜMÜ",
+        text: "AŞKIIMM AYDÖNÜMÜMÜZ KUTLU OLSUUUNNN. İlk de ben kutlamış oldum nihihiihi. Tam 7 ay mı olduk ne oha çüş daha gün 6 olmuştuk yaavv. Zaman seninle su gibi geçip gidiyor bitanem ve seninle geçirdiğim hiçbir saniyenin ardından pişman olmuyorum. İleride bir günde şuan 1 aylık olduğumuz zamanlara baktığımız gibi bu zamanlara bakıp ne kadar eşekmişiz yaav demeyi o kadar istiyorumki. Sen benim en büyük iyikimsin. İyi ki varsın aşkım. NİCE 7 AY 7 YIL 7 ASIR 7 ÖMÜRLEREEE!",
         photos: [
           "images/13gülmek/1.png",
           "images/13gülmek/2.png"
         ],
         quiz: {
-          question: "En sevdiğim seslerden biri: senin ...... sesin. (cevap: gülme)",
-          answers: ["gülme", "gulme", "gülmek", "gulmek"]
+          question: "BUGÜN KAÇ AYLIK OLDUK",
+          answers: ["7", "yedi"]
+        },
+        isAnniversary: true
       },
-      isAnniversary: true
-    },
 
       "2025-12-13": {
-        title: "Gün 14 – Kız Ruhlar",
-        text: "",
+        title: "Gün 14 – İkiz Ruhlar",
+        text: "Seninle bi fotoğrafta aynı tepkiyi vermek. Bir olayda aynı düşünmek. Hatta artık gülüşlerimizin bile aynı olması... O kadar mutlu ediyorki beni. Ve farkına varıyorum gerçekten insanların çifter çifter yaratıldığını. Ben dualarımın karşılığını en ihtiyacım olduğu anda buldum. Ne kadar şükretsem az. İyi ki varsın balım",
         photos: [
           "images/14ikizruhlar/1-full.png",
           "images/14ikizruhlar/2-full.png"
         ],
         quiz: {
-          question: "Bizim gizli ekibimizin adı: 'iki .... ruh' (cevap: kız)",
-          answers: ["kız", "kiz"]
+          question: "Aynı şekilde gülüp aynı şekilde nefes aldığımız gün ne yapıyorduk?",
+          answers: ["LEGO"]
         }
       },
 
       "2025-12-14": {
         title: "Gün 15 – Her Şeyin Başlangıcı",
-        text: "",
+        text: "Of bugün romantik bi gün değil dümdüz açlığımıza ayırdım bu günü. Senile krispy kreme gömmeyi o kadar özledimki anlatamam. Fotoğrafta da ilk gömdüğümüz gün var. Aynı manitamı ilk gördüğüm gün gibi bağlandık resmen. En yakın zamanda yemeye gidelim lütfen. Bayadır bir şey denemeye de gitmiyoz sushi tarzı oraya da gidek. Romantik yazı yazarken acıkınca böyle oluyo işte. SENİ ÇOK SEVİYOM VE SENİ DE YERİM.",
         photos: [
           "images/15herşeyinbaşlangıcı/1.png",
           "images/15herşeyinbaşlangıcı/2.png"
         ],
         quiz: {
-          question: "Bir hikayenin ilk kısmına ne deriz? (cevap: başlangıç)",
-          answers: ["başlangıç", "baslangic"]
+          question: "Çif olarak sürekli gitmek istediğimiz zincir tatlıcının adı",
+          answers: ["Krisp Kreme"]
         }
       },
 
       "2025-12-15": {
         title: "Gün 16 – Kendime Övme Günü",
-        text: "",
+        text: "Ya 2 gün üst üste romantik olmamış gibi olcak ama sen bu fotoda bana çok yakışıklısın demiştin ve o günden beri bu fotomuzu görünce sadece o aklıma geliyor. Hatta eski fotoları atarken sürekli bunu atıyom bunda beni beğendin diye. Fotoğrafı geçtim bu tişörtü görünce bile direkt oha manitam beğenmişti bunu diyorum. Hep eşek eşek sırıtıyom gün boyu sen öyle şeyler dediğinde. EŞEK EŞEK EŞEK. Neyseee bu fotomuzu çok seviyorum ve manitamın yakışıklısıyım 😎",
         photos: [
           "images/16kendimeövmegünü/1.png"
         ],
         quiz: {
-          question: "Bugünün konsepti: biraz kendini .... (cevap: övmek)",
-          answers: ["övmek", "ovmek", "kendini övmek", "kendimi övmek"]
+          question: "Dünyanın en yakışıklısı kimdir?",
+          answers: ["manitam", "hamza", "sevgilim", "benim manita"]
         }
       },
 
@@ -1006,7 +1008,7 @@
   <!-- ANA ÇALIŞTIRICI -->
   <script>
     (function init() {
-      const today = new Date(2025, 10, 30); // ÖNİZLEME İÇİN SABİT TARİH
+      const today = new Date();
 
       const todayDateOnly = new Date(
         today.getFullYear(),
@@ -1072,7 +1074,7 @@
         if (statusEl) {
           statusEl.classList.remove("hidden");
           statusEl.textContent =
-            "Takvimimiz henüz başlamadı. İlk not 30 Kasım'da açılacak. 💌";
+            "Aşkım erken gelmişsin. İlk not 30 Kasım`da açılacak💌";
         }
         return;
       }
@@ -1081,7 +1083,7 @@
         if (statusEl) {
           statusEl.classList.remove("hidden");
           statusEl.textContent =
-            "Bu küçük takvim görevini tamamladı. Umarım her sayfası seni gülümsetmiştir. ✨";
+            "Manita Calendar bittii. Başka sürpizleri beklemeye başla artık!!✨";
         }
         return;
       }
@@ -1177,18 +1179,18 @@
         quizSubmitBtn.onclick = function () {
           const user = quizAnswerInput.value.toLowerCase().trim();
           if (!user) {
-            quizFeedbackEl.textContent = "Azıcık düşün, bir şeyler yaz. 💭";
+            quizFeedbackEl.textContent = "Yav, bir şeyler yazsana. 💭";
             return;
           }
 
           if (acceptedAnswers.includes(user)) {
             quizFeedbackEl.textContent =
-              "TAM İSABET! Bugünün sayfası senin. 💖";
+              "AFERİN BENİM BAL KÜPÜME! 💖";
             renderEntryContent();
             triggerAnniversaryEffects();
           } else {
             quizFeedbackEl.textContent =
-              "Bence bir daha düşün. Küçük bir ipucu: anılar. 😉";
+              "Ya yuuuhh! Nasıl bilemezsin.";
           }
         };
 
