@@ -440,6 +440,18 @@
       color: var(--text-main);
     }
 
+    /* 1 Ocak özel mesaj kutusu */
+    .special-message {
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 0.9rem;
+      color: var(--accent-soft);
+      line-height: 1.45;
+    }
+
     @media (max-width: 480px) {
       body {
         align-items: flex-start;
@@ -1000,7 +1012,9 @@
         quiz: {
           question: "Yeni yıl kaç? (cevap: 2026)",
           answers: ["2026"]
-        }
+        },
+        /* 1 Ocak’a özel sinema mesajı */
+        specialMessage: "AŞKIMMM BUGÜN SİNEMAYA GİDİYORUUUZ! 🎬🍿 Yeni yılın ilk günü, ilk planı: sen + ben + film. Hep böyle yan yana olalım. 🤍"
       }
     };
   </script>
@@ -1008,7 +1022,7 @@
   <!-- ANA ÇALIŞTIRICI -->
   <script>
     (function init() {
-      const today = new Date();
+      const today = new Date(2025, 12, 1);
 
       const todayDateOnly = new Date(
         today.getFullYear(),
@@ -1107,6 +1121,21 @@
 
       function renderEntryContent() {
         noteSection.hidden = false;
+
+        // Eski özel mesaj kutusunu temizle
+        const existingSpecial = noteSection.querySelector(".special-message");
+        if (existingSpecial) {
+          existingSpecial.remove();
+        }
+
+        // Eğer bu güne özel bir mesaj varsa, en üste ekle
+        if (entry.specialMessage) {
+          const msgBox = document.createElement("div");
+          msgBox.className = "special-message";
+          msgBox.textContent = entry.specialMessage;
+          noteSection.prepend(msgBox);
+        }
+
         const safeIdx = idx > 0 ? idx : 1;
         noteTitleEl.textContent = entry.title || `Gün ${safeIdx}`;
         noteTextEl.textContent = entry.text || "";
@@ -1186,8 +1215,16 @@
           if (acceptedAnswers.includes(user)) {
             quizFeedbackEl.textContent =
               "AFERİN BENİM BAL KÜPÜME! 💖";
-            renderEntryContent();
-            triggerAnniversaryEffects();
+
+            // 1 Ocak 2026 için özel: sinema sayfasına yönlendir
+            if (key === "2026-01-01") {
+              setTimeout(() => {
+                window.location.href = "sinema.html";
+              }, 800);
+            } else {
+              renderEntryContent();
+              triggerAnniversaryEffects();
+            }
           } else {
             quizFeedbackEl.textContent =
               "Ya yuuuhh! Nasıl bilemezsin.";
@@ -1360,6 +1397,20 @@
           if (!entry) return;
 
           noteSection.hidden = false;
+
+          // Önizlemede de özel mesajı göster
+          const existingSpecial = noteSection.querySelector(".special-message");
+          if (existingSpecial) {
+            existingSpecial.remove();
+          }
+
+          if (entry.specialMessage) {
+            const msgBox = document.createElement("div");
+            msgBox.className = "special-message";
+            msgBox.textContent = entry.specialMessage;
+            noteSection.prepend(msgBox);
+          }
+
           noteTitleEl.textContent = entry.title || "";
           noteTextEl.textContent = entry.text || "";
 
