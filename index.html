@@ -29,7 +29,7 @@
       padding: 0;
     }
 
-    /* Emojili pattern */
+    /* Emojili pattern – default (🥬 + ❤️) */
     body::before {
       content: "";
       position: fixed;
@@ -51,6 +51,15 @@
       opacity: 0.25;
       animation: driftSmooth 110s linear infinite;
       will-change: transform;
+    }
+
+    /* 1 Ocak sorusu doğru bilindikten sonra sinema modu (🍿 + 🎬) */
+    body.cinema-mode::before {
+      background-image: url("data:image/svg+xml;utf8,\
+    <svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'>\
+      <text x='10' y='50' font-size='38' opacity='0.40'>🍿</text>\
+      <text x='80' y='115' font-size='34' opacity='0.40'>🎬</text>\
+    </svg>");
     }
 
     @keyframes driftSmooth {
@@ -266,10 +275,12 @@
       aspect-ratio: auto;
     }
 
-    .photo.photo--full img {
+    .photo.photo--full img,
+    .photo.photo--full video {
       width: 100%;
       height: auto;
       object-fit: contain;
+      display: block;
     }
 
     .hint {
@@ -452,6 +463,79 @@
       line-height: 1.45;
     }
 
+    /* Bilet pop-up – sadece alt kart, ARKASI KARARMADAN */
+    .ticket-popup {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      z-index: 30;
+      pointer-events: none;
+    }
+
+    .ticket-popup__card {
+      position: relative;
+      margin: 0 16px 24px;
+      background: #14121c;
+      border-radius: 20px;
+      padding: 16px 18px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.8),
+        0 0 25px rgba(255, 200, 230, 0.3);
+      transform: translateY(120%);
+      opacity: 0;
+      transition:
+        transform 0.3s ease-out,
+        opacity 0.25s ease-out;
+      backdrop-filter: blur(8px);
+    }
+
+    .ticket-popup.visible {
+      pointer-events: auto;
+    }
+
+    .ticket-popup.visible .ticket-popup__card {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .ticket-popup__title {
+      font-family: "Dancing Script", cursive;
+      font-size: 1.6rem;
+      margin-bottom: 4px;
+      color: #ffffff;
+    }
+
+    .ticket-popup__text {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      margin-bottom: 10px;
+    }
+
+    .ticket-popup__cta {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .ticket-popup__cta button {
+      border-radius: 999px;
+      border: none;
+      padding: 7px 14px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      background: linear-gradient(135deg, #f28b82, #ffc7b7);
+      color: #1a1a26;
+      font-weight: 500;
+    }
+
+    .ticket-popup__cta button:hover {
+      filter: brightness(1.03);
+    }
+
     @media (max-width: 480px) {
       body {
         align-items: flex-start;
@@ -500,6 +584,10 @@
 
       .calendar-wrapper {
         display: none;
+      }
+
+      .ticket-popup__card {
+        margin: 0 10px 18px;
       }
     }
   </style>
@@ -565,6 +653,20 @@
   <section class="calendar-wrapper">
     <div id="calendar-root"></div>
   </section>
+
+  <!-- Bilet Pop-up (arkası kararmayan, alttan animasyonlu) -->
+  <div class="ticket-popup" id="ticket-popup">
+    <div class="ticket-popup__card">
+      <div class="ticket-popup__title">Biletini Kazandın! 🎟️</div>
+      <p class="ticket-popup__text">
+        Aşkım, yeni yılın ilk sinema randevusunu resmi olarak kazandın. 🍿🎬
+        Hazırsan, aşağıdaki butona bas ve birlikte filmimize gidelim.
+      </p>
+      <div class="ticket-popup__cta">
+        <button id="ticket-go-btn" type="button">Sinema sayfasına git 🎬</button>
+      </div>
+    </div>
+  </div>
 
   <audio id="bg-music" loop>
     <source src="sensiz-olmaz.mp3" type="audio/mpeg" />
@@ -1002,13 +1104,8 @@
       "2026-01-01": {
         title: "Gün 33 – Yeni Yıl",
         text: "",
-        photos: [
-          "images/33yeniyıl/1.png",
-          "images/33yeniyıl/2.png",
-          "images/33yeniyıl/3.png",
-          "images/33yeniyıl/4.png",
-          "images/33yeniyıl/5.png"
-        ],
+        video: "videos/33yeniyil.mp4", /* kendi video yolunu burada güncelle */
+        photos: [],
         quiz: {
           question: "Yeni yıl kaç? (cevap: 2026)",
           answers: ["2026"]
@@ -1019,10 +1116,30 @@
     };
   </script>
 
+  <!-- YARDIMCI FONKSİYONLAR: Sinema modu & bilet pop-up -->
+  <script>
+    function enableCinemaMode() {
+      document.body.classList.add("cinema-mode");
+    }
+
+    function showTicketPopup() {
+      const popup = document.getElementById("ticket-popup");
+      const goBtn = document.getElementById("ticket-go-btn");
+      if (!popup || !goBtn) return;
+
+      popup.classList.add("visible");
+
+      goBtn.onclick = function () {
+        window.location.href = "sinema.html";
+      };
+    }
+  </script>
+
   <!-- ANA ÇALIŞTIRICI -->
   <script>
     (function init() {
-      const today = new Date();
+      // CANLI VERSİYONDA GÜNÜN TARİHİ
+      const today = new Date(2025, 12, 1);
 
       const todayDateOnly = new Date(
         today.getFullYear(),
@@ -1141,7 +1258,23 @@
         noteTextEl.textContent = entry.text || "";
 
         photosEl.innerHTML = "";
-        if (Array.isArray(entry.photos) && entry.photos.length > 0) {
+
+        let videoElement = null;
+
+        if (entry.video) {
+          const wrapper = document.createElement("div");
+          wrapper.className = "photo photo--full";
+
+          const video = document.createElement("video");
+          video.src = entry.video;
+          video.controls = true;
+          video.playsInline = true;
+
+          wrapper.appendChild(video);
+          photosEl.appendChild(wrapper);
+
+          videoElement = video;
+        } else if (Array.isArray(entry.photos) && entry.photos.length > 0) {
           entry.photos.forEach((src) => {
             const wrapper = document.createElement("div");
             wrapper.className = "photo";
@@ -1156,6 +1289,18 @@
             wrapper.appendChild(img);
             photosEl.appendChild(wrapper);
           });
+        }
+
+        // 33. gün için: video bittikten sonra sinema modu + pop-up
+        if (key === "2026-01-01" && videoElement) {
+          videoElement.addEventListener(
+            "ended",
+            () => {
+              enableCinemaMode();
+              showTicketPopup();
+            },
+            { once: true }
+          );
         }
       }
 
@@ -1216,13 +1361,10 @@
             quizFeedbackEl.textContent =
               "AFERİN BENİM BAL KÜPÜME! 💖";
 
-            // 1 Ocak 2026 için özel: sinema sayfasına yönlendir
-            if (key === "2026-01-01") {
-              setTimeout(() => {
-                window.location.href = "sinema.html";
-              }, 800);
-            } else {
-              renderEntryContent();
+            renderEntryContent();
+
+            // 1 Ocak’ta confetti vs yok, sadece video + sonrasında sinema
+            if (key !== "2026-01-01") {
               triggerAnniversaryEffects();
             }
           } else {
@@ -1415,7 +1557,19 @@
           noteTextEl.textContent = entry.text || "";
 
           photosEl.innerHTML = "";
-          if (Array.isArray(entry.photos) && entry.photos.length > 0) {
+
+          if (entry.video) {
+            const wrapper = document.createElement("div");
+            wrapper.className = "photo photo--full";
+
+            const video = document.createElement("video");
+            video.src = entry.video;
+            video.controls = true;
+            video.playsInline = true;
+
+            wrapper.appendChild(video);
+            photosEl.appendChild(wrapper);
+          } else if (Array.isArray(entry.photos) && entry.photos.length > 0) {
             entry.photos.forEach((src) => {
               const wrapper = document.createElement("div");
               wrapper.className = "photo";
