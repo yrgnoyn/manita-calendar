@@ -275,10 +275,12 @@
       aspect-ratio: auto;
     }
 
-    .photo.photo--full img {
+    .photo.photo--full img,
+    .photo.photo--full video {
       width: 100%;
       height: auto;
       object-fit: contain;
+      display: block;
     }
 
     .hint {
@@ -1102,13 +1104,8 @@
       "2026-01-01": {
         title: "Gün 33 – Yeni Yıl",
         text: "",
-        photos: [
-          "images/33yeniyıl/1.png",
-          "images/33yeniyıl/2.png",
-          "images/33yeniyıl/3.png",
-          "images/33yeniyıl/4.png",
-          "images/33yeniyıl/5.png"
-        ],
+        video: "videos/33yeniyil.mp4", /* kendi video yolunu burada güncelle */
+        photos: [],
         quiz: {
           question: "Yeni yıl kaç? (cevap: 2026)",
           answers: ["2026"]
@@ -1142,7 +1139,7 @@
   <script>
     (function init() {
       // CANLI VERSİYONDA GÜNÜN TARİHİ
-      const today = new Date(2025, 12, 1);
+      const today = new Date();
 
       const todayDateOnly = new Date(
         today.getFullYear(),
@@ -1261,7 +1258,23 @@
         noteTextEl.textContent = entry.text || "";
 
         photosEl.innerHTML = "";
-        if (Array.isArray(entry.photos) && entry.photos.length > 0) {
+
+        let videoElement = null;
+
+        if (entry.video) {
+          const wrapper = document.createElement("div");
+          wrapper.className = "photo photo--full";
+
+          const video = document.createElement("video");
+          video.src = entry.video;
+          video.controls = true;
+          video.playsInline = true;
+
+          wrapper.appendChild(video);
+          photosEl.appendChild(wrapper);
+
+          videoElement = video;
+        } else if (Array.isArray(entry.photos) && entry.photos.length > 0) {
           entry.photos.forEach((src) => {
             const wrapper = document.createElement("div");
             wrapper.className = "photo";
@@ -1276,6 +1289,18 @@
             wrapper.appendChild(img);
             photosEl.appendChild(wrapper);
           });
+        }
+
+        // 33. gün için: video bittikten sonra sinema modu + pop-up
+        if (key === "2026-01-01" && videoElement) {
+          videoElement.addEventListener(
+            "ended",
+            () => {
+              enableCinemaMode();
+              showTicketPopup();
+            },
+            { once: true }
+          );
         }
       }
 
@@ -1336,13 +1361,10 @@
             quizFeedbackEl.textContent =
               "AFERİN BENİM BAL KÜPÜME! 💖";
 
-            // 1 Ocak 2026 için özel: sinema modu + bilet pop-up
-            if (key === "2026-01-01") {
-              renderEntryContent();
-              enableCinemaMode();
-              showTicketPopup();
-            } else {
-              renderEntryContent();
+            renderEntryContent();
+
+            // 1 Ocak’ta confetti vs yok, sadece video + sonrasında sinema
+            if (key !== "2026-01-01") {
               triggerAnniversaryEffects();
             }
           } else {
@@ -1535,7 +1557,19 @@
           noteTextEl.textContent = entry.text || "";
 
           photosEl.innerHTML = "";
-          if (Array.isArray(entry.photos) && entry.photos.length > 0) {
+
+          if (entry.video) {
+            const wrapper = document.createElement("div");
+            wrapper.className = "photo photo--full";
+
+            const video = document.createElement("video");
+            video.src = entry.video;
+            video.controls = true;
+            video.playsInline = true;
+
+            wrapper.appendChild(video);
+            photosEl.appendChild(wrapper);
+          } else if (Array.isArray(entry.photos) && entry.photos.length > 0) {
             entry.photos.forEach((src) => {
               const wrapper = document.createElement("div");
               wrapper.className = "photo";
