@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <title>Bir Marul Hikayesi 🥬 – Gala Gecesi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  
-  <meta id="meta-theme-color" name="theme-color" content="#3c040a">
+
+  <!-- Üst çentik ve alt URL bar için koyu perde kırmızısı -->
+  <meta id="meta-theme-color" name="theme-color" content="#2b0208">
 
   <link
     href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&family=Poppins:wght@300;400;500;600&display=swap"
@@ -14,10 +15,9 @@
 
   <style>
     :root {
-      /* Ortada koyu bordo, kenarlara doğru neredeyse siyah-kırmızı */
-      --bg: #2b0208; 
+      --bg: #2b0208;
       --bg-dark: #120207;
-      
+
       --red: #b02030;
       --ticket-bg: #fbf6ec;
       --ticket-border: #e4dbcf;
@@ -38,14 +38,15 @@
     html {
       width: 100%;
       height: 100%;
+      background-color: #2b0208; /* çentik arkasına yansıyan renk */
       background:
         radial-gradient(circle at 40% 0%, #5b0813 0%, #36030a 35%, #1a0105 70%, #050003 100%);
-      overflow: hidden;
     }
 
     body {
       width: 100%;
       height: 100%;
+      background-color: #2b0208; /* alt URL bar arkasına yansıyan renk */
       background:
         radial-gradient(circle at 50% -10%, #5b0813 0%, #36030a 35%, #1a0105 70%, #050003 100%);
       font-family: "Poppins", sans-serif;
@@ -61,7 +62,7 @@
     }
 
     .bg-glow {
-      display: none; 
+      display: none;
     }
 
     .cinema {
@@ -78,7 +79,6 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      /* Ortada biraz daha parlak, kenarlarda çok koyu bordo/siyah */
       background:
         radial-gradient(circle at 50% -10%, #5c0a16 0%, #3a050e 35%, #190006 70%, #050003 100%);
       box-shadow:
@@ -348,14 +348,13 @@
       image-rendering: pixelated;
       filter: brightness(1.08) contrast(1.02);
       transition: filter 0.8s ease;
-      pointer-events: none; /* Artık img tıklanamaz, hotspot tıklanacak */
+      pointer-events: none;
     }
 
     body.lights-dim .viewer-scene img {
       filter: brightness(0.48) contrast(1.18);
     }
 
-    /* SADECE KARAKTERLERİN ÜSTÜNDE TIKLANABİLEN ALAN */
     .kiss-hotspot {
       position: absolute;
       bottom: 8%;
@@ -882,7 +881,6 @@
       }
     }
 
-    /* Bilet sürüklerken yazı seçilmesin */
     .ticket-layer,
     .ticket-layer * {
       user-select: none;
@@ -916,14 +914,14 @@
           </div>
 
           <div class="top-start" id="top-start">
-            <button class="top-start-btn">
+            <button class="top-start-btn" id="top-start-btn" type="button">
               <span class="icon">▶</span>
               <span>Filmi Başlat</span>
             </button>
           </div>
 
           <div class="custom-controls" id="custom-controls">
-            <button class="cc-btn" id="btn-play">
+            <button class="cc-btn" id="btn-play" type="button">
               <span class="cc-icon" id="icon-play">▶</span>
             </button>
 
@@ -935,10 +933,10 @@
 
             <div class="cc-right">
               <span class="cc-time" id="cc-time">0:00 / 0:00</span>
-              <button class="cc-btn" id="btn-fullscreen">
+              <button class="cc-btn" id="btn-fullscreen" type="button">
                 <span class="cc-icon" id="icon-fullscreen">⛶</span>
               </button>
-              <button class="cc-btn" id="btn-mute">
+              <button class="cc-btn" id="btn-mute" type="button">
                 <span class="cc-icon" id="icon-mute">🔊</span>
               </button>
             </div>
@@ -963,10 +961,10 @@
                 Özel teşekkür: Marul’a 🥬
               </p>
               <div class="end-actions">
-                <button class="end-btn primary" id="btn-rewatch">
+                <button class="end-btn primary" id="btn-rewatch" type="button">
                   Bir Daha İzle
                 </button>
-                <button class="end-btn ghost" id="btn-save-ticket">
+                <button class="end-btn ghost" id="btn-save-ticket" type="button">
                   Bileti Sakla
                 </button>
               </div>
@@ -1082,28 +1080,36 @@
       const iconFullscreen = document.getElementById("icon-fullscreen");
 
       const topStart = document.getElementById("top-start");
+      const topStartBtn = document.getElementById("top-start-btn");
 
-      // ALT SALON GÖRSELİ (ÖPÜŞME EFEKTİ – SADECE KARAKTERLERİN ÜSTÜNDEKİ ALAN TIKLANABİLİR)
+      // ALT SALON GÖRSELİ (ÖPÜŞME EFEKTİ)
       const viewerImg = document.getElementById("viewer-scene-img");
       const kissHotspot = document.getElementById("kiss-hotspot");
-      const NORMAL_SRC = "salon.png";        // normal hali
-      const KISS_SRC = "salon-kiss.png";     // öpüşme görseli (uzun ince olan)
+      const NORMAL_SRC = "salon.png";
+      const KISS_SRC = "salon-kiss.png";
       let kissTimeout = null;
       let isKissShowing = false;
 
       if (kissHotspot && viewerImg) {
-        kissHotspot.addEventListener("click", () => {
+        function triggerKiss() {
           if (isKissShowing) return;
-
           isKissShowing = true;
           viewerImg.src = KISS_SRC;
 
-          const DISPLAY_MS = 2500; // 2.5 saniye
+          const DISPLAY_MS = 2500;
 
           kissTimeout = setTimeout(() => {
             viewerImg.src = NORMAL_SRC;
             isKissShowing = false;
           }, DISPLAY_MS);
+        }
+
+        kissHotspot.addEventListener("click", triggerKiss);
+        kissHotspot.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            triggerKiss();
+          }
         });
       }
 
@@ -1177,8 +1183,8 @@
       }
 
       function setPlayIcon() {
-        if (!iconPlay) return;
-        iconPlay.textContent = video && !video.paused ? "⏸" : "▶";
+        if (!iconPlay || !video) return;
+        iconPlay.textContent = video.paused || video.ended ? "▶" : "⏸";
       }
 
       function setMuteIcon() {
@@ -1192,8 +1198,8 @@
       }
 
       function hideTopStart() {
-        if (topStart && topStart.style.display !== "none") {
-          topStart.style.display = "none";
+        if (topStart) {
+          topStart.classList.remove("show");
         }
       }
 
@@ -1238,10 +1244,25 @@
         }
       }
 
-      function playVideo() {
+      // TEK DOKUNUŞTA BAŞLASIN
+      function playVideoFromUserGesture() {
         if (!video) return;
         hideTopStart();
-        video.play().catch(() => {});
+        video.controls = false;
+        const playPromise = video.play();
+
+        if (playPromise && typeof playPromise.then === "function") {
+          playPromise
+            .then(() => {
+              // başarıyla başladı
+            })
+            .catch(() => {
+              // Bazı cihazlarda engellenirse yine de play tuşu ile devam edilsin
+              if (btnPlay) {
+                btnPlay.focus();
+              }
+            });
+        }
       }
 
       function pauseVideo() {
@@ -1254,21 +1275,18 @@
           e.stopPropagation();
           if (!video) return;
           if (video.paused || video.ended) {
-            playVideo();
+            playVideoFromUserGesture();
           } else {
             pauseVideo();
           }
         });
       }
 
-      if (topStart) {
-        const topBtn = topStart.querySelector("button");
-        if (topBtn) {
-          topBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            playVideo();
-          });
-        }
+      if (topStartBtn) {
+        topStartBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          playVideoFromUserGesture();
+        });
       }
 
       if (btnMute && video) {
@@ -1388,7 +1406,7 @@
         screenVideo.addEventListener("click", () => {
           if (!video) return;
           if (video.paused || video.ended) {
-            playVideo();
+            playVideoFromUserGesture();
           } else {
             pauseVideo();
           }
@@ -1416,7 +1434,7 @@
         } else if (e.code === "Space") {
           e.preventDefault();
           if (video.paused || video.ended) {
-            playVideo();
+            playVideoFromUserGesture();
           } else {
             pauseVideo();
           }
@@ -1454,12 +1472,14 @@
 
           if (pauseOverlay) pauseOverlay.classList.remove("show");
           if (endOverlay) endOverlay.classList.remove("show");
+
           if (!lightsDimmed) {
             lightsDimmed = true;
             setTimeout(() => {
               document.body.classList.add("lights-dim");
             }, 600);
           }
+
           setPlayIcon();
           showControlsTemp();
           startProgressLoop();
@@ -1479,6 +1499,10 @@
           if (customControls && controlsEnabled) customControls.classList.add("visible");
           setPlayIcon();
           stopProgressLoop();
+
+          // FİLM BİTİNCE IŞIKLAR AÇILSIN
+          document.body.classList.remove("lights-dim");
+          lightsDimmed = false;
         });
       }
 
@@ -1486,7 +1510,7 @@
         pauseOverlay.addEventListener("click", () => {
           pauseOverlay.classList.remove("show");
           if (video.paused && !video.ended) {
-            playVideo();
+            playVideoFromUserGesture();
           }
         });
       }
@@ -1495,7 +1519,7 @@
         btnRewatch.addEventListener("click", () => {
           if (endOverlay) endOverlay.classList.remove("show");
           video.currentTime = 0;
-          playVideo();
+          playVideoFromUserGesture();
         });
       }
 
