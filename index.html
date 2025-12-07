@@ -41,10 +41,10 @@
       pointer-events: none;
 
       background-image: url("data:image/svg+xml;utf8,\
-    <svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'>\
-      <text x='10' y='50' font-size='38' opacity='0.40'>🥬</text>\
-      <text x='90' y='120' font-size='34' opacity='0.40'>❤️</text>\
-    </svg>");
+<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'>\
+  <text x='10' y='50' font-size='38' opacity='0.40'>🥬</text>\
+  <text x='90' y='120' font-size='34' opacity='0.40'>❤️</text>\
+</svg>");
       background-repeat: repeat;
       background-size: 160px 160px;
 
@@ -53,32 +53,53 @@
       will-change: transform;
     }
 
-    /* 1 Ocak sorusu doğru bilindikten sonra sinema modu (🍿 + 🎬) */
+    /* 1 Ocak’ta sinema modu: popcorn + film */
     body.cinema-mode::before {
       background-image: url("data:image/svg+xml;utf8,\
-    <svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'>\
-      <text x='10' y='50' font-size='38' opacity='0.40'>🍿</text>\
-      <text x='80' y='115' font-size='34' opacity='0.40'>🎬</text>\
-    </svg>");
+<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'>\
+  <text x='10' y='50' font-size='38' opacity='0.40'>🍿</text>\
+  <text x='80' y='115' font-size='34' opacity='0.40'>🎬</text>\
+</svg>");
+    }
+
+    /* 1 Ocak özel: arka plan gradyanı değişsin + kar efektli ikinci layer */
+    body.cinema-mode {
+      --bg-top: #050819;
+      --bg-bottom: #050712;
+    }
+
+    body.cinema-mode::after {
+      content: "";
+      position: fixed;
+      inset: -200px;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,0.9) 0, rgba(255,255,255,0) 55%),
+        radial-gradient(circle, rgba(255,255,255,0.7) 0, rgba(255,255,255,0) 55%),
+        radial-gradient(circle, rgba(255,255,255,0.5) 0, rgba(255,255,255,0) 55%);
+      background-size: 5px 5px, 7px 7px, 9px 9px;
+      background-position: 0 0, 50px 80px, 120px 40px;
+      opacity: 0.45;
+      animation: snowFall 22s linear infinite;
     }
 
     @keyframes driftSmooth {
-      0% {
-        transform: translate3d(0, 0, 0);
-      }
-      50% {
-        transform: translate3d(-220px, -160px, 0);
-      }
-      100% {
-        transform: translate3d(0, -320px, 0);
-      }
+      0% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(-220px, -160px, 0); }
+      100% { transform: translate3d(0, -320px, 0); }
+    }
+
+    @keyframes snowFall {
+      0% { transform: translateY(-60px); }
+      100% { transform: translateY(60px); }
     }
 
     html,
     body {
       margin: 0;
       padding: 0;
-      background-color: #12121B; /* telefon çerçevesi & overscroll */
+      background-color: #12121B;
       overscroll-behavior: none;
     }
 
@@ -283,6 +304,46 @@
       display: block;
     }
 
+    /* 33. gün video player'ı */
+    .video-wrapper {
+      background: radial-gradient(circle at top left, rgba(255, 200, 230, 0.22), rgba(0, 0, 0, 0.9));
+      border: 1px solid rgba(255, 255, 255, 0.28);
+    }
+
+    .video-wrapper video {
+      border-radius: inherit;
+      background: #000;
+    }
+
+    .video-play-btn {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+      border: none;
+      padding: 10px 18px;
+      font-size: 1.15rem;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.55);
+      color: #fff;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      transition:
+        transform 0.18s ease-out,
+        opacity 0.18s ease-out,
+        background 0.18s ease-out;
+    }
+
+    .video-wrapper:hover .video-play-btn {
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    .video-play-btn--playing {
+      opacity: 0.6;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
     .hint {
       margin-top: 10px;
       font-size: 0.78rem;
@@ -463,7 +524,7 @@
       line-height: 1.45;
     }
 
-    /* Bilet pop-up – sadece alt kart, ARKASI KARARMADAN */
+    /* Bilet pop-up – sadece alt kart, arkası kararmadan */
     .ticket-popup {
       position: fixed;
       left: 0;
@@ -654,16 +715,16 @@
     <div id="calendar-root"></div>
   </section>
 
-  <!-- Bilet Pop-up (arkası kararmayan, alttan animasyonlu) -->
+  <!-- Bilet pop-up -->
   <div class="ticket-popup" id="ticket-popup">
     <div class="ticket-popup__card">
       <div class="ticket-popup__title">Biletini Kazandın! 🎟️</div>
       <p class="ticket-popup__text">
-        Aşkım, yeni yılın ilk sinema biletini kazandın! 🍿🎬
-        Hazırsan, aşağıdaki butona bas ve bize özel bu filme gidelim.
+        Aşkım, yeni yılın ilk sinema randevusunu resmi olarak kazandın. 🍿🎬
+        Hazırsan, aşağıdaki butona bas ve birlikte filmimize gidelim.
       </p>
       <div class="ticket-popup__cta">
-        <button id="ticket-go-btn" type="button">Sinemaya git 🎬</button>
+        <button id="ticket-go-btn" type="button">Sinema sayfasına git 🎬</button>
       </div>
     </div>
   </div>
@@ -818,7 +879,7 @@
 
       "2025-12-10": {
         title: "Gün 11 – Ufak Bir İtiraf",
-        text: "Evet başlık seni biraz şaşırtabilir ama bugün diğer günlerden farklı  olarak hislerimden değil hala gerçeğini bilmediğin birşeyi itiraf edicem. Akınsoykırıma geldiğin gün Senayla seni okulun dış kapısında görmüştüm ve cidden içimde asla tarif edemeyeceğim hisler yaşamıştım ve çok sana doğru koşmak istemiştim. Ama aynı çantanda gördüğüm hediyeyi kendi üstüme alınmadığım gibi uzaktan benzetiyorumdur başkasına nasıl gelsin buraya demiştim. Hatta senin olabilme ihtimalin bile o kadar heyecanlandırmıştıki kapıya doğru bakamayıp arkada birşeylerle uğraşıyorum gibi yapmıştım. Manitamın bu kadar eşek olduğunu daha kestiremediğim zamanlarmış. O kadar bastırdım ve kafamdan silmeye çalıştımki sen olabilme ihtimalini gerçekten seni görünce ne yapacağımı bilemedim. Özür dilerim beklediğin tepkiyi veremediğim ve bu olayı senden sakladığım için. Ve bana bu kadar değer verdiğin için teşekkür ederim. He bide gs golüne benle sevindiğin için 😜​.  ",
+        text: "Evet başlık seni biraz şaşırtabilir ama bugün diğer günlerden farklı  olarak hislerimden değil hala gerçeğini bilmediğin birşeyi itiraf edicem. Akınsoykırıma geldiğin gün Senayla seni okulun dış kapısında görmüştüm ve cidden içimde asla tarif edemeyeceğim hisler yaşamıştım ve çok sana doğru koşmak istemiştim. Ama aynı çantanda gördüğün hediyeyi kendi üstüme alınmadığım gibi uzaktan benzetiyorumdur başkasına nasıl gelsin buraya demiştim. Hatta senin olabilme ihtimalin bile o kadar heyecanlandırmıştıki kapıya doğru bakamayıp arkada birşeylerle uğraşıyorum gibi yapmıştım. Manitamın bu kadar eşek olduğunu daha kestiremediğim zamanlarmış. O kadar bastırdım ve kafamdan silmeye çalıştımki sen olabilme ihtimalini gerçekten seni görünce ne yapacağımı bilemedim. Özür dilerim beklediğin tepkiyi veremediğim ve bu olayı senden sakladığım için. Ve bana bu kadar değer verdiğin için teşekkür ederim. He bide gs golüne benle sevindiğin için 😜​.  ",
         photos: [
           "images/11ufakbiritiraf/1.png"
         ],
@@ -1104,19 +1165,18 @@
       "2026-01-01": {
         title: "Gün 33 – Yeni Yıl",
         text: "",
-        video: "videos/33yeniyil.mp4", /* kendi video yolunu burada güncelle */
+        video: "videos/33yeniyil.mp4", /* kendi video yolunu buraya koy */
         photos: [],
         quiz: {
           question: "Yeni yıl kaç? (cevap: 2026)",
           answers: ["2026"]
         },
-        /* 1 Ocak’a özel sinema mesajı */
-        specialMessage: "AŞKIM BİRLİKTE GİRDİĞİMİZ İLK YIL KUTLU OLSUN! Bu yıla ve bugüne özel sana bir video hazırladım. Kim bilir belki videodan sonra da süprizler vardır😜."
+        specialMessage: "AŞKIMMM BUGÜN SİNEMAYA GİDİYORUUUZ! 🎬🍿 Yeni yılın ilk günü, ilk planı: sen + ben + film. Hep böyle yan yana olalım. 🤍"
       }
     };
   </script>
 
-  <!-- YARDIMCI FONKSİYONLAR: Sinema modu & bilet pop-up -->
+  <!-- Yardımcı fonksiyonlar: sinema modu & bilet popup -->
   <script>
     function enableCinemaMode() {
       document.body.classList.add("cinema-mode");
@@ -1128,7 +1188,6 @@
       if (!popup || !goBtn) return;
 
       popup.classList.add("visible");
-
       goBtn.onclick = function () {
         window.location.href = "sinema.html";
       };
@@ -1138,8 +1197,7 @@
   <!-- ANA ÇALIŞTIRICI -->
   <script>
     (function init() {
-      // CANLI VERSİYONDA GÜNÜN TARİHİ
-      const today = new Date(2025, 12, 1);
+      const today = new Date(2025, 12, 1);  // canlıda bugünü al
 
       const todayDateOnly = new Date(
         today.getFullYear(),
@@ -1239,13 +1297,12 @@
       function renderEntryContent() {
         noteSection.hidden = false;
 
-        // Eski özel mesaj kutusunu temizle
+        // özel mesaj temizle
         const existingSpecial = noteSection.querySelector(".special-message");
         if (existingSpecial) {
           existingSpecial.remove();
         }
 
-        // Eğer bu güne özel bir mesaj varsa, en üste ekle
         if (entry.specialMessage) {
           const msgBox = document.createElement("div");
           msgBox.className = "special-message";
@@ -1263,14 +1320,45 @@
 
         if (entry.video) {
           const wrapper = document.createElement("div");
-          wrapper.className = "photo photo--full";
+          wrapper.className = "photo photo--full video-wrapper";
 
           const video = document.createElement("video");
           video.src = entry.video;
           video.controls = true;
           video.playsInline = true;
 
+          const playBtn = document.createElement("button");
+          playBtn.type = "button";
+          playBtn.className = "video-play-btn";
+          playBtn.textContent = "▶";
+
+          playBtn.addEventListener("click", () => {
+            if (video.paused) {
+              video.play().catch(() => {});
+            } else {
+              video.pause();
+            }
+          });
+
+          video.addEventListener("play", () => {
+            playBtn.classList.add("video-play-btn--playing");
+            playBtn.textContent = "⏸";
+          });
+
+          video.addEventListener("pause", () => {
+            playBtn.classList.remove("video-play-btn--playing");
+            playBtn.textContent = "▶";
+          });
+
+          // 1 Ocak videosu bittikten sonra bilet pop-up
+          if (key === "2026-01-01") {
+            video.addEventListener("ended", () => {
+              showTicketPopup();
+            }, { once: true });
+          }
+
           wrapper.appendChild(video);
+          wrapper.appendChild(playBtn);
           photosEl.appendChild(wrapper);
 
           videoElement = video;
@@ -1289,18 +1377,6 @@
             wrapper.appendChild(img);
             photosEl.appendChild(wrapper);
           });
-        }
-
-        // 33. gün için: video bittikten sonra sinema modu + pop-up
-        if (key === "2026-01-01" && videoElement) {
-          videoElement.addEventListener(
-            "ended",
-            () => {
-              enableCinemaMode();
-              showTicketPopup();
-            },
-            { once: true }
-          );
         }
       }
 
@@ -1361,10 +1437,12 @@
             quizFeedbackEl.textContent =
               "AFERİN BENİM BAL KÜPÜME! 💖";
 
-            renderEntryContent();
-
-            // 1 Ocak’ta confetti vs yok, sadece video + sonrasında sinema
-            if (key !== "2026-01-01") {
+            // 1 Ocak: soruyu bilir bilmez arka plan sinema + kar moduna geçsin
+            if (key === "2026-01-01") {
+              enableCinemaMode();
+              renderEntryContent(); // video gözüksün, bitince popup çıkacak
+            } else {
+              renderEntryContent();
               triggerAnniversaryEffects();
             }
           } else {
@@ -1540,7 +1618,6 @@
 
           noteSection.hidden = false;
 
-          // Önizlemede de özel mesajı göster
           const existingSpecial = noteSection.querySelector(".special-message");
           if (existingSpecial) {
             existingSpecial.remove();
@@ -1560,7 +1637,7 @@
 
           if (entry.video) {
             const wrapper = document.createElement("div");
-            wrapper.className = "photo photo--full";
+            wrapper.className = "photo photo--full video-wrapper";
 
             const video = document.createElement("video");
             video.src = entry.video;
