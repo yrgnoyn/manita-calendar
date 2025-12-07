@@ -29,14 +29,14 @@
       padding: 0;
     }
 
-    /* Emojili pattern – default (🥬 + ❤️) */
+    /* NORMAL MOD – 🥬 + ❤️ pattern */
     body::before {
       content: "";
       position: fixed;
-      top: -600px;
-      left: -300px;
-      width: calc(100% + 600px);
-      height: calc(100% + 1200px);
+      top: -400px;
+      left: -400px;
+      width: calc(100% + 800px);
+      height: calc(100% + 800px);
       z-index: 0;
       pointer-events: none;
 
@@ -46,48 +46,51 @@
   <text x='90' y='120' font-size='34' opacity='0.40'>❤️</text>\
 </svg>");
       background-repeat: repeat;
-      background-size: 160px 160px;
+      background-size: 180px 180px;
 
-      opacity: 0.25;
+      opacity: 0.22;
       animation: driftSmooth 110s linear infinite;
       will-change: transform;
     }
 
-    /* 1 Ocak’ta sinema modu: popcorn + film */
-    body.cinema-mode::before {
+    /* 1 OCAK – sinema + yumuşak kış teması */
+    body.winter-cinema {
+      --bg-top: #060816;
+      --bg-bottom: #05050d;
+    }
+
+    /* 1 Ocak'ta emojiler 🎬 + 🍿 olacak */
+    body.winter-cinema::before {
       background-image: url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'>\
-  <text x='10' y='50' font-size='38' opacity='0.40'>🍿</text>\
-  <text x='80' y='115' font-size='34' opacity='0.40'>🎬</text>\
+<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'>\
+  <text x='24' y='56' font-size='40' opacity='0.40'>🎬</text>\
+  <text x='90' y='120' font-size='38' opacity='0.40'>🍿</text>\
 </svg>");
+      background-size: 190px 190px;
+      opacity: 0.22;
     }
 
-    /* 1 Ocak özel: arka plan gradyanı + daha tatlı kar efekti */
-    body.cinema-mode {
-      --bg-top: #050819;
-      --bg-bottom: #050712;
-    }
-
-    body.cinema-mode::after {
+    /* yumuşak, geniş kar taneleri – grid gibi değil */
+    body.winter-cinema::after {
       content: "";
       position: fixed;
       inset: -200px;
       pointer-events: none;
       z-index: 0;
-      /* Daha seyrek, yumuşak kar taneleri */
+
       background-image: url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'>\
-  <circle cx='20' cy='30' r='2.2' fill='white' fill-opacity='0.9'/>\
-  <circle cx='150' cy='40' r='1.6' fill='white' fill-opacity='0.7'/>\
-  <circle cx='90' cy='170' r='2' fill='white' fill-opacity='0.8'/>\
-  <circle cx='40' cy='120' r='1.5' fill='white' fill-opacity='0.6'/>\
-  <circle cx='165' cy='130' r='2.4' fill='white' fill-opacity='0.85'/>\
-  <circle cx='110' cy='80' r='1.8' fill='white' fill-opacity='0.75'/>\
+<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'>\
+  <circle cx='40' cy='30' r='2.3' fill='white' fill-opacity='0.9'/>\
+  <circle cx='200' cy='60' r='1.7' fill='white' fill-opacity='0.7'/>\
+  <circle cx='120' cy='210' r='2.1' fill='white' fill-opacity='0.8'/>\
+  <circle cx='70' cy='150' r='1.6' fill='white' fill-opacity='0.6'/>\
+  <circle cx='230' cy='160' r='2.5' fill='white' fill-opacity='0.85'/>\
+  <circle cx='180' cy='110' r='1.9' fill='white' fill-opacity='0.75'/>\
 </svg>");
       background-repeat: repeat;
-      background-size: 220px 220px;
-      opacity: 0.55;
-      animation: snowFall 45s linear infinite;
+      background-size: 260px 260px;
+      opacity: 0.5;
+      animation: softSnow 55s linear infinite;
     }
 
     @keyframes driftSmooth {
@@ -96,16 +99,16 @@
       100% { transform: translate3d(0, -320px, 0); }
     }
 
-    @keyframes snowFall {
-      0% { transform: translateY(-80px); }
-      100% { transform: translateY(80px); }
+    @keyframes softSnow {
+      0%   { transform: translateY(-60px); }
+      100% { transform: translateY(60px); }
     }
 
     html,
     body {
       margin: 0;
       padding: 0;
-      background-color: #12121B;
+      background-color: #12121B; /* telefon çerçevesi & overscroll */
       overscroll-behavior: none;
     }
 
@@ -156,29 +159,31 @@
       border-color: rgba(255, 200, 230, 0.6);
     }
 
-    /* 1 Ocak: kart ve takvimin üstünde kar birikmiş efekti */
-    body.cinema-mode .card,
-    body.cinema-mode .calendar-box {
+    /* Kart & takvim üst kenarında hafif kar/buz birikmesi – sadece winter modda */
+    body.winter-cinema .card,
+    body.winter-cinema .calendar-box {
       overflow: visible;
     }
 
-    body.cinema-mode .card::before,
-    body.cinema-mode .calendar-box::before {
+    body.winter-cinema .card::before,
+    body.winter-cinema .calendar-box::before {
       content: "";
       position: absolute;
-      left: -8px;
-      right: -8px;
+      left: -10px;
+      right: -10px;
       top: -14px;
       height: 26px;
-      background:
-        radial-gradient(circle at 10% 140%, rgba(255,255,255,0.96) 0, rgba(255,255,255,0) 70%),
-        radial-gradient(circle at 35% 130%, rgba(255,255,255,0.96) 0, rgba(255,255,255,0) 70%),
-        radial-gradient(circle at 65% 135%, rgba(255,255,255,0.96) 0, rgba(255,255,255,0) 70%),
-        radial-gradient(circle at 90% 140%, rgba(255,255,255,0.96) 0, rgba(255,255,255,0) 70%);
-      border-radius: 999px;
-      filter: drop-shadow(0 3px 5px rgba(0,0,0,0.5));
       pointer-events: none;
       z-index: 5;
+
+      background:
+        radial-gradient(circle at 12% 140%, rgba(255,255,255,0.97) 0, rgba(255,255,255,0) 70%),
+        radial-gradient(circle at 40% 135%, rgba(255,255,255,0.96) 0, rgba(255,255,255,0) 70%),
+        radial-gradient(circle at 68% 140%, rgba(255,255,255,0.97) 0, rgba(255,255,255,0) 70%),
+        radial-gradient(circle at 90% 140%, rgba(255,255,255,0.96) 0, rgba(255,255,255,0) 70%);
+      border-radius: 999px;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.55));
+      opacity: 0.95;
     }
 
     .card-header {
@@ -556,7 +561,7 @@
       line-height: 1.45;
     }
 
-    /* Bilet pop-up – alttan kayarak gelsin, arka planı karartmadan */
+    /* Bilet pop-up – arka planı kapatmadan, alttan kayarak */
     .ticket-popup {
       position: fixed;
       left: 0;
@@ -1197,7 +1202,7 @@
       "2026-01-01": {
         title: "Gün 33 – Yeni Yıl",
         text: "",
-        video: "videos/33yeniyil.mp4", /* videonu buraya koy */
+        video: "videos/33yeniyil.mp4", /* videonu bu isme göre koy */
         photos: [],
         quiz: {
           question: "Yeni yıl kaç? (cevap: 2026)",
@@ -1208,10 +1213,10 @@
     };
   </script>
 
-  <!-- Yardımcı fonksiyonlar: sinema modu & bilet popup -->
+  <!-- Yardımcı fonksiyonlar: kış + sinema teması & bilet popup -->
   <script>
-    function enableCinemaMode() {
-      document.body.classList.add("cinema-mode");
+    function enableWinterCinemaTheme() {
+      document.body.classList.add("winter-cinema");
     }
 
     function showTicketPopup() {
@@ -1229,7 +1234,7 @@
   <!-- ANA ÇALIŞTIRICI -->
   <script>
     (function init() {
-      const today = new Date(2025, 12, 1); // canlıda gerçek günü al
+      const today = new Date(2025, 12, 1); // canlıda gerçek gün
 
       const todayDateOnly = new Date(
         today.getFullYear(),
@@ -1379,6 +1384,7 @@
             playBtn.textContent = "▶";
           });
 
+          /* 1 Ocak videosu bitince bilet popupı gelsin */
           if (key === "2026-01-01") {
             video.addEventListener("ended", () => {
               showTicketPopup();
@@ -1464,8 +1470,10 @@
               "AFERİN BENİM BAL KÜPÜME! 💖";
 
             if (key === "2026-01-01") {
-              enableCinemaMode();
-              renderEntryContent(); // video görünür; bitince popup
+              /* 1 Ocak: kış + sinema teması aç, sonra video görünsün.
+                 Video bitince popup gelecek. */
+              enableWinterCinemaTheme();
+              renderEntryContent();
             } else {
               renderEntryContent();
               triggerAnniversaryEffects();
