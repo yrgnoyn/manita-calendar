@@ -106,9 +106,7 @@
       overscroll-behavior: none;
     }
 
-    html {
-      min-height: 100%;
-    }
+    html { min-height: 100%; }
 
     body {
       font-family: "Poppins", sans-serif;
@@ -160,15 +158,12 @@
       z-index: 1;
     }
 
-    .title-block {
-      max-width: 70%;
-    }
+    .title-block { max-width: 70%; }
 
     .title-block h1 {
       font-family: "Dancing Script", cursive;
       font-size: 2rem;
       font-weight: 600;
-      letter-spacing: 0;
       color: #ffffff;
     }
 
@@ -184,9 +179,7 @@
       color: var(--accent-soft);
     }
 
-    .day-pill {
-      display: none;
-    }
+    .day-pill { display: none; }
 
     .day-pill span:first-child {
       font-weight: 600;
@@ -223,9 +216,7 @@
       text-overflow: ellipsis;
     }
 
-    .music-bar input[type="range"] {
-      width: 70px;
-    }
+    .music-bar input[type="range"] { width: 70px; }
 
     .status {
       position: relative;
@@ -239,9 +230,7 @@
       z-index: 1;
     }
 
-    .hidden {
-      display: none !important;
-    }
+    .hidden { display: none !important; }
 
     .note {
       position: relative;
@@ -261,9 +250,7 @@
       margin-bottom: 8px;
     }
 
-    .back-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
-    }
+    .back-btn:hover { background: rgba(255, 255, 255, 0.12); }
 
     .note-title {
       font-family: "Dancing Script", cursive;
@@ -482,9 +469,7 @@
       z-index: 1;
     }
 
-    .footer span {
-      white-space: nowrap;
-    }
+    .footer span { white-space: nowrap; }
 
     .calendar-wrapper {
       position: fixed;
@@ -546,9 +531,7 @@
       color: var(--text-main);
     }
 
-    .calendar-day.empty {
-      background: transparent;
-    }
+    .calendar-day.empty { background: transparent; }
 
     .calendar-day.today {
       background: linear-gradient(135deg, #f28b82, #ffc7b7);
@@ -644,7 +627,7 @@
       line-height: 1.45;
     }
 
-    /* TAKVİM BİTTİKTEN SONRA SEVİYE/GÜN SEÇİM EKRANI */
+    /* Post-sezon seçim ekranı */
     .post-season {
       margin-top: 6px;
       z-index: 1;
@@ -709,7 +692,6 @@
       background: radial-gradient(circle at top, rgba(0, 0, 0, 0.2), #14121f);
     }
 
-    /* Kutu içindeki foto: tam foto, kırpmasız */
     .day-tile__thumb img {
       position: absolute;
       inset: 0;
@@ -790,9 +772,7 @@
       backdrop-filter: blur(8px);
     }
 
-    .ticket-popup.visible {
-      pointer-events: auto;
-    }
+    .ticket-popup.visible { pointer-events: auto; }
 
     .ticket-popup.visible .ticket-popup__card {
       transform: translateY(0);
@@ -812,10 +792,7 @@
       margin-bottom: 10px;
     }
 
-    .ticket-popup__cta {
-      display: flex;
-      justify-content: flex-end;
-    }
+    .ticket-popup__cta { display: flex; justify-content: flex-end; }
 
     .ticket-popup__cta button {
       border-radius: 999px;
@@ -828,9 +805,7 @@
       font-weight: 500;
     }
 
-    .ticket-popup__cta button:hover {
-      filter: brightness(1.03);
-    }
+    .ticket-popup__cta button:hover { filter: brightness(1.03); }
 
     @media (max-width: 480px) {
       body {
@@ -847,37 +822,21 @@
         margin-bottom: 36px;
       }
 
-      .card-header {
-        margin-bottom: 18px;
-      }
+      .card-header { margin-bottom: 18px; }
 
-      .title-block h1 {
-        font-size: 1.8rem;
-      }
+      .title-block h1 { font-size: 1.8rem; }
 
-      .title-block p {
-        font-size: 0.85rem;
-      }
+      .title-block p { font-size: 0.85rem; }
 
-      .note-text {
-        font-size: 0.92rem;
-      }
+      .note-text { font-size: 0.92rem; }
 
-      .photos {
-        margin-top: 10px;
-      }
+      .photos { margin-top: 10px; }
 
-      .footer {
-        margin-top: 24px;
-      }
+      .footer { margin-top: 24px; }
 
-      .calendar-wrapper {
-        display: none;
-      }
+      .calendar-wrapper { display: none; }
 
-      .ticket-popup__card {
-        margin: 0 10px 18px;
-      }
+      .ticket-popup__card { margin: 0 10px 18px; }
 
       .post-season__grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -928,17 +887,15 @@
 
     <!-- Sezon sonrası seçim ekranı -->
     <section class="post-season hidden" id="post-season">
-      <h2 class="post-season__title">Manita Calendar’ın sezonu bitti ama anılar burada kaldı 💌</h2>
+      <h2 class="post-season__title">MANİTA CALENDAR BİTTİ 💌</h2>
       <p class="post-season__text">
-        Aşkım, bu takvim aslında sadece 33 gün için değildi. Her gününe tek tek bir şeyler yazarken
-        aklımdan geçen şey hep aynıydı: “Bir gün canı sıkıldığında, özlediğinde ya da sadece gülmek
-        istediğinde bu sayfayı açsın, istediği günü seçip o ana geri dönebilsin.”<br /><br />
-        O yüzden şimdi sanki oyunda level seçer gibi, aşağıdan istediğin günü seçebilirsin. Hangi
-        kareye tıklarsan, seni direkt o günün sayfasına götürecek. Quiz yok, zorlamaca yok, sadece
-        “hangi günü yeniden yaşamak istiyorsun?” sorusu var. 🥹✨
+        Aşkım, umarım bu takvim seni her yeni güne mutlu başlamanı sağlamıştır. Umarım sana en güzel Advent Calendarı vermeyi becerebilmişimdir.”<br /><br />
+        Artık dilediğin gibi her güne bakabilirsin. Özel notları tekrar tekrar okuyabilirsin!
+        Üstüne üstlük soru bilmene de gerek yok. 😜
+        Sadece hangi günü tekrar yaşamak istiyorsan onu seç. ✨
       </p>
       <p class="post-season__subtitle">
-        Aşağıdan bir günü seç, o günün notunu ve fotoğraflarını tekrar açalım. 🎮💖
+        Aşağıdan bir günü seç, o günün notunu ve fotoğraflarını tekrar açalım. 💖
       </p>
       <div class="post-season__grid" id="post-season-grid"></div>
     </section>
@@ -984,7 +941,7 @@
     <source src="confetti.mp3" type="audio/mpeg" />
   </audio>
 
-  <!-- ENTRIES (senin gönderdiğinle aynı) -->
+  <!-- ENTRIES -->
   <script>
     const SEASON_YEAR = 2025;
     const RELATION_START = new Date(2025, 4, 12);
@@ -1013,14 +970,14 @@
           "images/2süpriz/3.png"
         ],
         quiz: {
-          question: "TDK da karşılığı: Hiç beklenmediği için insanı şaşırtarak sevindiren ya da insanın üzüntüsüne yol açan olay olan kelime nasıl yazılır",
+          question: "TDK da karşılığı: Hiç beklenmediği için insanı şaşırtarak sevindiren ...",
           answers: ["sürpriz"]
         }
       },
 
       "2025-12-02": {
         title: "Gün 3 – Bakakalmak",
-        text: "Yeni yeni tanıştığımız zamanlarda yaşamıştım en çok bu hissi. Bakakalmak. Aslında şaşkınlıkla belkide korkuyla alakalı bir kelime gibi geliyor ama konu sen olduğunda bakakalmak bende sadece hayran kalmak anlamına geliyor. Bu fotoğrafı attığını bile unutmuşsundur belki ama cidden en hala en sevdiğim fotoğraflarından biridir. O kadar güzel geliyorsunki bu fotoğrafta. Bu kız oha ya... diyebiliyorum bakınca sadece. Kendi güzelliğin dışında kalbinin güzelliğiyle  de hayatımı güzelleştirdin ve çok rahat söyleyebilirimki beni de daha iyi birisi yaptın. Ömrüm boyunca güzelliğinle mest olup sana saatlerce doya doya bakmak istiyorum. İyi ki hayatımdasın balım. ",
+        text: "Yeni yeni tanıştığımız zamanlarda yaşamıştım en çok bu hissi. Bakakalmak. Aslında şaşkınlıkla belkide korkuyla alakalı bir kelime gibi geliyor ama konu sen olduğunda bakakalmak bende sadece hayran kalmak anlamına geliyor. Bu fotoğrafı attığını bile unutmuşsundur belki ama cidden en hala en sevdiğim fotoğraflarından biridir. O kadar güzel geliyorsunki bu fotoğrafta. Bu kız oha ya... diyebiliyorum bakınca sadece. Kendi güzelliğin dışında kalbinin güzelliğiyle de hayatımı güzelleştirdin ve çok rahat söyleyebilirimki beni de daha iyi birisi yaptın. Ömrüm boyunca güzelliğinle mest olup sana saatlerce doya doya bakmak istiyorum. İyi ki hayatımdasın balım.",
         photos: [
           "images/3bakakalmak/1.png"
         ],
@@ -1032,7 +989,7 @@
 
       "2025-12-03": {
         title: "Gün 4 – Hayal Kurmak",
-        text: "Belki sen hoşlanmıyorsun gerçek olmayacak diye ama seninle bir gelecek hayal etmekten o kadar büyük keyif alıyorumki. Sadece 5 yıl 10  yıl değil ömrümün son günlerinde yaşlı huysuz bi çiftken edeceğimiz kavgalara kadar hepsini düşünüp her yaşımda, ömrümün her anında sana tekrardan aşık oluyorum. İnşAllah sağlıklı, uzun, mutlu ve birlikte yıllarımız olur ve biz birbirimizle hayal kurmaktan asla vazgeçmeyiz sevgilim. Dilerim hayallerimizin üstüne çizikler attığımız bir ömür yaşarız. Seni çok seviyorum.",
+        text: "Belki sen hoşlanmıyorsun gerçek olmayacak diye ama seninle bir gelecek hayal etmekten o kadar büyük keyif alıyorumki. Sadece 5 yıl 10 yıl değil ömrümün son günlerinde yaşlı huysuz bi çiftken edeceğimiz kavgalara kadar hepsini düşünüp her yaşımda, ömrümün her anında sana tekrardan aşık oluyorum. İnşAllah sağlıklı, uzun, mutlu ve birlikte yıllarımız olur ve biz birbirimizle hayal kurmaktan asla vazgeçmeyiz sevgilim. Dilerim hayallerimizin üstüne çizikler attığımız bir ömür yaşarız. Seni çok seviyorum.",
         photos: [
           "images/4hayalkurmak/1.png",
           "images/4hayalkurmak/2-full.png"
@@ -1060,7 +1017,7 @@
 
       "2025-12-05": {
         title: "Gün 6 – Beraber Olmak",
-        text: "Hayatıma girdiğinden beridir böyle bir ihtiyacım olduğunu fark ettim. Eskiden birilerinin yanında olmamak kendimle baş başa kalmak için uğraşırken şimdi her fırsatımda beraber olalım diye uğraşmak beni çok garip hissettiriyor. İnsanın kendinden bile fazla ihtiyaç duyduğu birinin olması. Herhaldeki aşk buna deniyor. Herhangi bir şey yapmasak bile sadece yan yana durmak dizini dizimde ellerini elimde hissetmek bile dünyanın en keyifli anına dönüştürüyor o anı. Ve senin eksikliğini hissettiğim en ufak saniyede en keyifli anda bile bi burukluk yaratıyor. En güzel anılarımızı birlikte biriktirme dileğiyle. SENİ ÇOOOOOOOOOK SEVİYORUM ",
+        text: "Hayatıma girdiğinden beridir böyle bir ihtiyacım olduğunu fark ettim. Eskiden birilerinin yanında olmamak kendimle baş başa kalmak için uğraşırken şimdi her fırsatımda beraber olalım diye uğraşmak beni çok garip hissettiriyor. İnsanın kendinden bile fazla ihtiyaç duyduğu birinin olması. Herhaldeki aşk buna deniyor. Herhangi bir şey yapmasak bile sadece yan yana durmak dizini dizimde ellerini elimde hissetmek bile dünyanın en keyifli anına dönüştürüyor o anı. Ve senin eksikliğini hissettiğim en ufak saniyede en keyifli anda bile bi burukluk yaratıyor. En güzel anılarımızı birlikte biriktirme dileğiyle. SENİ ÇOOOOOOOOOK SEVİYORUM",
         photos: [
           "images/6beraberolmak/1-full.png",
           "images/6beraberolmak/2.png",
@@ -1127,13 +1084,13 @@
 
       "2025-12-10": {
         title: "Gün 11 – Ufak Bir İtiraf",
-        text: "Evet başlık seni biraz şaşırtabilir ama bugün diğer günlerden farklı  olarak hislerimden değil hala gerçeğini bilmediğin birşeyi itiraf edicem. Akınsoykırıma geldiğin gün Senayla seni okulun dış kapısında görmüştüm ve cidden içimde asla tarif edemeyeceğim hisler yaşamıştım ve çok sana doğru koşmak istemiştim. Ama aynı çantanda gördüğüm hediyeyi kendi üstüme alınmadığım gibi uzaktan benzetiyorumdur başkasına nasıl gelsin buraya demiştim. Hatta senin olabilme ihtimalin bile o kadar heyecanlandırmıştıki kapıya doğru bakamayıp arkada birşeylerle uğraşıyorum gibi yapmıştım. Manitamın bu kadar eşek olduğunu daha kestiremediğim zamanlarmış. O kadar bastırdım ve kafamdan silmeye çalıştımki sen olabilme ihtimalini gerçekten seni görünce ne yapacağımı bilemedim. Özür dilerim beklediğin tepkiyi veremediğim ve bu olayı senden sakladığım için. Ve bana bu kadar değer verdiğin için teşekkür ederim. He bide gs golüne benle sevindiğin için 😜​.  ",
+        text: "Evet başlık seni biraz şaşırtabilir ama bugün diğer günlerden farklı olarak hislerimden değil hala gerçeğini bilmediğin birşeyi itiraf edicem. Akınsoykırıma geldiğin gün Senayla seni okulun dış kapısında görmüştüm ve cidden içimde asla tarif edemeyeceğim hisler yaşamıştım ve çok sana doğru koşmak istemiştim. Ama aynı çantanda gördüğüm hediyeyi kendi üstüme alınmadığım gibi uzaktan benzetiyorumdur başkasına nasıl gelsin buraya demiştim. Hatta senin olabilme ihtimalin bile o kadar heyecanlandırmıştıki kapıya doğru bakamayıp arkada birşeylerle uğraşıyorum gibi yapmıştım. Manitamın bu kadar eşek olduğunu daha kestiremediğim zamanlarmış. O kadar bastırdım ve kafamdan silmeye çalıştımki sen olabilme ihtimalini gerçekten seni görünce ne yapacağımı bilemedim. Özür dilerim beklediğin tepkiyi veremediğim ve bu olayı senden sakladığım için. Ve bana bu kadar değer verdiğin için teşekkür ederim. He bide gs golüne benle sevindiğin için 😜​.",
         photos: [
           "images/11ufakbiritiraf/1.png"
         ],
         quiz: {
           question: "Akınsoykırımın tarihi ne zamandı? (gün, ay, şeklinde)",
-          answers: ["17 Mayıs", "18 Mayıs"]
+          answers: ["17 mayıs", "18 mayıs"]
         }
       },
 
@@ -1147,7 +1104,8 @@
         quiz: {
           question: "Dünyanın en tatlı insanı",
           answers: ["ben", "beyza", "beyza alpir", "melis beyza alpir"]
-        }
+        },
+        isAnniversary: true
       },
 
       "2025-12-12": {
@@ -1173,7 +1131,7 @@
         ],
         quiz: {
           question: "Aynı şekilde gülüp aynı şekilde nefes aldığımız gün ne yapıyorduk?",
-          answers: ["LEGO"]
+          answers: ["lego"]
         }
       },
 
@@ -1186,7 +1144,7 @@
         ],
         quiz: {
           question: "Çif olarak sürekli gitmek istediğimiz zincir tatlıcının adı",
-          answers: ["Krisp Kreme"]
+          answers: ["krispy kreme", "krisp kreme", "krispy"]
         }
       },
 
@@ -1263,7 +1221,7 @@
           "images/21elindengeleninfazlası/1.png"
         ],
         quiz: {
-          question: "Bir şey için 'elimden gelenin .... yaptım' deriz. Boşluk? (cevap: en iyisini / en fazlasını)",
+          question: "Bir şey için 'elimden gelenin .... yaptım' deriz. Boşluk?",
           answers: ["en iyisini", "en iyisi", "en fazlasını", "en fazlasini"]
         }
       },
@@ -1287,7 +1245,7 @@
           "images/23eşeklik/1.png"
         ],
         quiz: {
-          question: "Birbirimize bazen sevgiyle ne deriz: 'yine ne .... yaptın?' (cevap: eşeklik)",
+          question: "Birbirimize bazen sevgiyle ne deriz: 'yine ne .... yaptın?'",
           answers: ["eşeklik", "eseklik"]
         }
       },
@@ -1326,7 +1284,7 @@
           "images/26mutluluğuiçinherşeyiyapmak/3.png"
         ],
         quiz: {
-          question: "Buradaki kilit kelime: 'senin .... için her şeyi yaparım'. (cevap: mutluluğun)",
+          question: "Buradaki kilit kelime: 'senin .... için her şeyi yaparım'.",
           answers: ["mutluluğun", "mutlulugun"]
         }
       },
@@ -1354,7 +1312,7 @@
           "images/28iyiki/1.png"
         ],
         quiz: {
-          question: "Bu cümleyi tamamla: '.... ki hayatımdasın'. (cevap: iyi)",
+          question: "Bu cümleyi tamamla: '.... ki hayatımdasın'.",
           answers: ["iyi", "iyiki", "iyi ki"]
         }
       },
@@ -1363,7 +1321,7 @@
         title: "Gün 29 – O Yokken Bile Sevmek",
         text: "",
         photos: [
-          "images/29oyokkenbilesevmek/1.png"
+          "images/29oyokkenbilesevmek/1-full.png"
         ],
         quiz: {
           question: "Yan yana olmasak bile içten içe ne yapıyorum? (cevap: sevmek)",
@@ -1378,7 +1336,7 @@
           "images/30kıpırkıpırolmak/1-full.png"
         ],
         quiz: {
-          question: "Heyecanlı, içi içe sığmayan his nasıl tarif edilir? (cevap: kıpır kıpır)",
+          question: "Heyecanlı, içi içe sığmayan his nasıl tarif edilir?",
           answers: ["kıpır kıpır", "kipir kipir", "kıpırkıpır"]
         }
       },
@@ -1414,6 +1372,7 @@
         title: "Gün 33 (SON GÜN) – Yeni Yıl",
         text: "",
         video: "videos/33yeniyil.mp4",
+        /* Bu fotoğraf sadece seçim kartı için; içerikte gösterilmiyor */
         photos: ["images/33yeniyil/1.png"],
         quiz: {
           question: "Yeni yıl kaç? (cevap: 2026)",
@@ -1428,7 +1387,7 @@
   <!-- ANA LOGİK -->
   <script>
     (function init() {
-      // Tarihi özellikle böyle sabit bırak demiştin: 1 Ocak
+      // Test için sabit tarih (istersen değiştirebilirsin)
       const today = new Date();
 
       const todayDateOnly = new Date(
@@ -1465,6 +1424,45 @@
       const oneDayMs = 1000 * 60 * 60 * 24;
 
       let postSeasonInitialized = false;
+
+      function clearAnniversaryEffects() {
+        if (cardEl) {
+          cardEl.classList.remove("anniversary");
+        }
+      }
+
+      function triggerAnniversaryEffects(entry) {
+        if (!entry || !entry.isAnniversary) return;
+
+        clearAnniversaryEffects();
+
+        if (cardEl) {
+          cardEl.classList.add("anniversary");
+        }
+
+        const sound = document.getElementById("confetti-sound");
+        if (sound) {
+          sound.currentTime = 0;
+          sound.play().catch(() => {});
+        }
+
+        if (window.confetti) {
+          const duration = 3000;
+          const end = Date.now() + duration;
+
+          (function frame() {
+            window.confetti({
+              particleCount: 7,
+              spread: 80,
+              startVelocity: 45,
+              ticks: 200,
+              gravity: 0.8,
+              origin: { x: Math.random(), y: 0.0 } // tam üstten başlasın
+            });
+            if (Date.now() < end) requestAnimationFrame(frame);
+          })();
+        }
+      }
 
       if (statusEl) {
         statusEl.classList.add("hidden");
@@ -1545,6 +1543,7 @@
         photosEl.innerHTML = "";
 
         if (entry.video) {
+          // 33. gün: sadece video (foto göstermiyoruz)
           setupCustomVideo(entryKey, entry);
         } else if (Array.isArray(entry.photos) && entry.photos.length > 0) {
           entry.photos.forEach((src) => {
@@ -1561,34 +1560,6 @@
             wrapper.appendChild(img);
             photosEl.appendChild(wrapper);
           });
-        }
-      }
-
-      function triggerAnniversaryEffects(entry) {
-        if (!entry.isAnniversary) return;
-
-        if (cardEl) {
-          cardEl.classList.add("anniversary");
-        }
-
-        const sound = document.getElementById("confetti-sound");
-        if (sound) {
-          sound.currentTime = 0;
-          sound.play().catch(() => {});
-        }
-
-        if (window.confetti) {
-          const duration = 3000;
-          const end = Date.now() + duration;
-
-          (function frame() {
-            confetti({
-              particleCount: 5,
-              spread: 80,
-              origin: { x: Math.random(), y: 0.3 }
-            });
-            if (Date.now() < end) requestAnimationFrame(frame);
-          })();
         }
       }
 
@@ -1765,6 +1736,8 @@
         const entry = entries[dateKey];
         if (!entry) return;
 
+        clearAnniversaryEffects();
+
         const sortedKeys = Object.keys(entries || {}).sort();
         const index = sortedKeys.indexOf(dateKey) + 1;
 
@@ -1789,10 +1762,16 @@
         if (backBtn) {
           backBtn.classList.remove("hidden");
         }
+
+        window.scrollTo({ top: 0, behavior: "auto" });
       }
 
       function setupPostSeasonScreen() {
         if (!postSeasonEl || !postSeasonGridEl) return;
+
+        clearAnniversaryEffects();
+        document.body.classList.remove("winter-cinema");
+        window.scrollTo({ top: 0, behavior: "auto" });
 
         if (quizArea) quizArea.hidden = true;
         noteSection.hidden = true;
@@ -1801,7 +1780,7 @@
         if (statusEl) {
           statusEl.classList.remove("hidden");
           statusEl.textContent =
-            "Takvim sezonu bitti. Aşağıdaki kutulardan istediğin günü seçip yeniden açabilirsin. 🎮💘";
+            "Manita Calendar bitti. Aşağıdaki kutulardan istediğin günü seçip yeniden açabilirsin. 💘";
         }
 
         if (!postSeasonInitialized) {
@@ -1887,6 +1866,8 @@
         return;
       }
 
+      clearAnniversaryEffects();
+
       const year = today.getFullYear();
       const month = String(today.getMonth() + 1).padStart(2, "0");
       const day = String(today.getDate()).padStart(2, "0");
@@ -1940,6 +1921,7 @@
 
             renderEntryContent(key, entry, idx);
             triggerAnniversaryEffects(entry);
+            window.scrollTo({ top: 0, behavior: "smooth" });
           } else {
             quizFeedbackEl.textContent =
               "Ya yuuuhh! Nasıl bilemezsin.";
@@ -1955,6 +1937,7 @@
       } else {
         renderEntryContent(key, entry, idx);
         triggerAnniversaryEffects(entry);
+        window.scrollTo({ top: 0, behavior: "auto" });
       }
     })();
 
