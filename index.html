@@ -29,7 +29,6 @@
       padding: 0;
     }
 
-    /* NORMAL MOD – 🥬 + ❤️ pattern */
     body::before {
       content: "";
       position: fixed;
@@ -39,7 +38,6 @@
       height: calc(100% + 800px);
       z-index: 0;
       pointer-events: none;
-
       background-image: url("data:image/svg+xml;utf8,\
 <svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'>\
   <text x='10' y='50' font-size='38' opacity='0.40'>🥬</text>\
@@ -47,13 +45,11 @@
 </svg>");
       background-repeat: repeat;
       background-size: 180px 180px;
-
       opacity: 0.22;
       animation: driftSmooth 110s linear infinite;
       will-change: transform;
     }
 
-    /* 1 OCAK – sinema + kış teması (quiz doğru cevaplanınca açılacak) */
     body.winter-cinema {
       --bg-top: #060816;
       --bg-bottom: #05050d;
@@ -69,14 +65,12 @@
       opacity: 0.24;
     }
 
-    /* Daha hızlı, belirgin kar */
     body.winter-cinema::after {
       content: "";
       position: fixed;
       inset: -200px;
       pointer-events: none;
       z-index: 0;
-
       background-image: url("data:image/svg+xml;utf8,\
 <svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'>\
   <circle cx='40' cy='30' r='2.3' fill='white' fill-opacity='0.9'/>\
@@ -88,7 +82,6 @@
 </svg>");
       background-repeat: repeat;
       background-size: 260px 260px;
-
       opacity: 0.75;
       animation: softSnow 18s linear infinite;
     }
@@ -123,7 +116,6 @@
       background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
       background-repeat: no-repeat;
       background-size: cover;
-
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -278,13 +270,13 @@
     .photos {
       margin-top: 12px;
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      flex-direction: column;
+      gap: 6px;
     }
 
     .photo {
       position: relative;
-      width: calc(50% - 5px);
+      width: 100%;
       aspect-ratio: 4 / 5;
       border-radius: 20px;
       overflow: hidden;
@@ -304,6 +296,7 @@
     .photo.photo--full {
       width: 100%;
       aspect-ratio: auto;
+      height: auto;
     }
 
     .photo.photo--full img {
@@ -312,54 +305,120 @@
       object-fit: contain;
     }
 
-    /* 33. gün – sinema ekranı gibi video */
+    /* -------- Video + Overlay Player -------- */
+
     .video-wrapper {
       position: relative;
       width: 100%;
-      border-radius: 24px;
+      margin-top: 6px;
+      border-radius: 20px;
       overflow: hidden;
-      margin-top: 12px;
-      background: radial-gradient(circle at top, rgba(255, 200, 230, 0.18), #050510);
-      padding: 10px;
-      box-shadow:
-        0 22px 45px rgba(0, 0, 0, 0.9),
-        0 0 30px rgba(0, 0, 0, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: #000;
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 18px 35px rgba(0, 0, 0, 0.6);
     }
 
     .video-wrapper video {
       width: 100%;
       display: block;
-      border-radius: 18px;
+      height: auto;
+      border-radius: 20px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    /* Player videonun içinde, alt kenara yapışık overlay */
+    .simple-player {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 4px;
+      background: radial-gradient(circle at 0 0, rgba(255,255,255,0.12), transparent 55%),
+                  rgba(8, 6, 18, 0.92);
+      border-radius: 999px;
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.9);
+    }
+
+    .simple-player button {
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 0.95rem;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .simple-player .time {
+      color: var(--text-soft);
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+
+    .simple-player input[type="range"] {
+      flex: 1;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .simple-player input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+      margin-top: 0px;
+    }
+
+    .simple-player input[type="range"]::-moz-range-thumb {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: none;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+    }
+
+    .simple-player input[type="range"]::-moz-range-track {
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    /* FULLSCREEN'de de overlay olarak görünmeye devam etsin */
+    .video-wrapper:fullscreen,
+    .video-wrapper:-webkit-full-screen {
       background: #000;
     }
 
-    .video-play-btn {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      border-radius: 999px;
-      border: none;
-      padding: 10px 18px;
-      font-size: 1.15rem;
-      cursor: pointer;
-      background: rgba(0, 0, 0, 0.55);
-      color: #fff;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(4px);
-      transition:
-        transform 0.18s ease-out,
-        opacity 0.18s ease-out,
-        background 0.18s ease-out;
+    .video-wrapper:fullscreen video,
+    .video-wrapper:-webkit-full-screen video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
-    .video-wrapper:hover .video-play-btn {
-      transform: translate(-50%, -50%) scale(1.05);
-    }
-
-    .video-play-btn--playing {
-      opacity: 0;
+    .video-wrapper:fullscreen .simple-player,
+    .video-wrapper:-webkit-full-screen .simple-player {
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      max-width: calc(100% - 32px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9);
     }
 
     .hint {
@@ -531,7 +590,6 @@
       color: var(--text-main);
     }
 
-    /* 1 Ocak özel mesaj kutusu */
     .special-message {
       padding: 12px 14px;
       margin-bottom: 12px;
@@ -543,7 +601,6 @@
       line-height: 1.45;
     }
 
-    /* Bilet pop-up – alttan kayarak çıkan */
     .ticket-popup {
       position: fixed;
       left: 0;
@@ -648,14 +705,7 @@
       }
 
       .photos {
-        flex-direction: column;
-        margin-top: 14px;
-      }
-
-      .photo {
-        width: 100%;
-        max-width: 260px;
-        margin-inline: auto;
+        margin-top: 10px;
       }
 
       .footer {
@@ -716,9 +766,7 @@
     <section class="note" id="note-section" hidden>
       <h2 class="note-title" id="note-title"></h2>
       <p class="note-text" id="note-text"></p>
-
       <div class="photos" id="photos"></div>
-
       <div class="hint">
         Sonraki notları sadece yeni güne girdiğimizde görebilceksin. YANİ SÜPRİZ HİHİHİHİ ✨
       </div>
@@ -734,16 +782,15 @@
     <div id="calendar-root"></div>
   </section>
 
-  <!-- Bilet pop-up -->
   <div class="ticket-popup" id="ticket-popup">
     <div class="ticket-popup__card">
       <div class="ticket-popup__title">Biletini Kazandın! 🎟️</div>
       <p class="ticket-popup__text">
-        Aşkım, yeni yılın ilk sinema randevusunu resmi olarak kazandın. 🍿🎬
+        Aşkım, yeni yılın ilk sinemasına gitme hakkı kazandın. 🍿🎬
         Hazırsan, aşağıdaki butona bas ve birlikte filmimize gidelim.
       </p>
       <div class="ticket-popup__cta">
-        <button id="ticket-go-btn" type="button">Sinema sayfasına git 🎬</button>
+        <button id="ticket-go-btn" type="button">Sinema salonuna git 🎬</button>
       </div>
     </div>
   </div>
@@ -756,7 +803,6 @@
     <source src="confetti.mp3" type="audio/mpeg" />
   </audio>
 
-  <!-- GÜN VERİLERİ -->
   <script>
     const SEASON_YEAR = 2025;
     const RELATION_START = new Date(2025, 4, 12);
@@ -1183,25 +1229,23 @@
       },
 
       "2026-01-01": {
-        title: "Gün 33 – Yeni Yıl",
+        title: "Gün 33 (SON GÜN) – Yeni Yıl",
         text: "",
-        /* sadece kısa video – aşağıdaki yolu kendi dosyana göre düzenleyebilirsin */
         video: "videos/33yeniyil.mp4",
         photos: [],
         quiz: {
           question: "Yeni yıl kaç? (cevap: 2026)",
           answers: ["2026"]
         },
-        specialMessage: "AŞKIMMM BUGÜN SİNEMAYA GİDİYORUUUZ! 🎬🍿 Yeni yılın ilk günü, ilk planı: sen + ben + film. Hep böyle yan yana olalım. 🤍"
+        specialMessage: "AŞKIM BUGÜN BİRLİKTE GİRDİĞİMİZ İLK YIL. BU YILDA DA SENİ ÇOK SEVİYORUM!🤍 Yeni yılın ilk gününe özel bugün video olsun istedim. Belki videodan sonra başka süprizler de vardır. 😜🤍"
       }
     };
   </script>
 
-  <!-- ANA ÇALIŞTIRICI -->
   <script>
     (function init() {
-      /* burada istersen manuel tarih tutuyordun; gerçek gün için new Date() yap */
-      const today = new Date(); // test için değiştirebilirsin
+      // Test için bilerek 1 Ocak yaptığın tarih:
+      const today = new Date(2025, 12, 1);
 
       const todayDateOnly = new Date(
         today.getFullYear(),
@@ -1209,8 +1253,8 @@
         today.getDate()
       );
 
-      const seasonStart = new Date(SEASON_YEAR, 10, 30); // 30 Kasım
-      const seasonEnd = new Date(SEASON_YEAR + 1, 0, 1); // 1 Ocak
+      const seasonStart = new Date(SEASON_YEAR, 10, 30);
+      const seasonEnd = new Date(SEASON_YEAR + 1, 0, 1);
 
       const statusEl = document.getElementById("status");
       const noteSection = document.getElementById("note-section");
@@ -1312,16 +1356,135 @@
         });
       }
 
-      function renderEntryContent() {
+      // --- Custom video player: overlay bar videonun içinde ---
+      function setupCustomVideo(entryKey, entry) {
+        const wrapper = document.createElement("div");
+        wrapper.className = "video-wrapper";
+
+        const controls = document.createElement("div");
+        controls.className = "simple-player";
+
+        const playBtn = document.createElement("button");
+        playBtn.textContent = "▶";
+
+        const seek = document.createElement("input");
+        seek.type = "range";
+        seek.min = "0";
+        seek.max = "100";
+        seek.value = "0";
+
+        const timeLabel = document.createElement("div");
+        timeLabel.className = "time";
+        timeLabel.textContent = "0:00 / 0:00";
+
+        const fsBtn = document.createElement("button");
+        fsBtn.textContent = "⛶";
+
+        const muteBtn = document.createElement("button");
+        muteBtn.textContent = "🔊";
+
+        controls.appendChild(playBtn);
+        controls.appendChild(seek);
+        controls.appendChild(timeLabel);
+        controls.appendChild(fsBtn);
+        controls.appendChild(muteBtn);
+
+        const video = document.createElement("video");
+        video.src = entry.video;
+        video.playsInline = true;
+        video.preload = "metadata";
+        video.controls = false;
+
+        // Önce video, sonra overlay bar (bar absolute olduğu için üstte görünecek)
+        wrapper.appendChild(video);
+        wrapper.appendChild(controls);
+        photosEl.appendChild(wrapper);
+
+        function formatTime(sec) {
+          const total = Math.floor(sec || 0);
+          const m = Math.floor(total / 60);
+          const s = String(total % 60).padStart(2, "0");
+          return `${m}:${s}`;
+        }
+
+        function updateUI() {
+          const cur = video.currentTime || 0;
+          const dur = video.duration || 0;
+          const percent = dur ? (cur / dur) * 100 : 0;
+          seek.value = percent;
+          timeLabel.textContent = `${formatTime(cur)} / ${
+            dur ? formatTime(dur) : "0:00"
+          }`;
+        }
+
+        function togglePlay() {
+          if (video.paused) {
+            video.play().catch(() => {});
+            playBtn.textContent = "⏸";
+          } else {
+            video.pause();
+            playBtn.textContent = "▶";
+          }
+        }
+
+        playBtn.addEventListener("click", togglePlay);
+        video.addEventListener("click", togglePlay);
+
+        video.addEventListener("timeupdate", updateUI);
+        video.addEventListener("loadedmetadata", updateUI);
+
+        seek.addEventListener("input", () => {
+          if (!video.duration) return;
+          const target = (seek.value / 100) * video.duration;
+          video.currentTime = target;
+        });
+
+        muteBtn.addEventListener("click", () => {
+          video.muted = !video.muted;
+          muteBtn.textContent = video.muted ? "🔈" : "🔊";
+        });
+
+        fsBtn.addEventListener("click", () => {
+          const isFs =
+            document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            document.msFullscreenElement;
+
+          if (!isFs) {
+            const req =
+              wrapper.requestFullscreen ||
+              wrapper.webkitRequestFullscreen ||
+              wrapper.msRequestFullscreen;
+            if (req) req.call(wrapper);
+          } else {
+            const exit =
+              document.exitFullscreen ||
+              document.webkitExitFullscreen ||
+              document.msExitFullscreen;
+            if (exit) exit.call(document);
+          }
+        });
+
+        if (entryKey === NEW_YEAR_KEY) {
+          let shown = false;
+          video.addEventListener("ended", () => {
+            playBtn.textContent = "▶";
+            if (!shown) {
+              shown = true;
+              showTicketPopup();
+            }
+          });
+        }
+      }
+
+      function renderEntryContent(entryKey, entry, idx) {
         noteSection.hidden = false;
 
-        // Eski özel mesaj kutusunu temizle
         const existingSpecial = noteSection.querySelector(".special-message");
         if (existingSpecial) {
           existingSpecial.remove();
         }
 
-        // Eğer bu güne özel bir mesaj varsa, en üste ekle
         if (entry.specialMessage) {
           const msgBox = document.createElement("div");
           msgBox.className = "special-message";
@@ -1335,59 +1498,8 @@
 
         photosEl.innerHTML = "";
 
-        // 33. gün video
         if (entry.video) {
-          const wrapper = document.createElement("div");
-          wrapper.className = "video-wrapper";
-
-          const video = document.createElement("video");
-          video.src = entry.video;
-          video.controls = true;
-          video.playsInline = true;
-          video.id = "newyear-video";
-          wrapper.appendChild(video);
-
-          const playBtn = document.createElement("button");
-          playBtn.type = "button";
-          playBtn.className = "video-play-btn";
-          playBtn.textContent = "▶";
-          wrapper.appendChild(playBtn);
-
-          function updateBtn() {
-            if (video.paused) {
-              playBtn.classList.remove("video-play-btn--playing");
-              playBtn.textContent = "▶";
-            } else {
-              playBtn.classList.add("video-play-btn--playing");
-              playBtn.textContent = "⏸";
-            }
-          }
-
-          playBtn.addEventListener("click", () => {
-            if (video.paused) {
-              video.play().catch(() => {});
-            } else {
-              video.pause();
-            }
-          });
-
-          video.addEventListener("play", updateBtn);
-          video.addEventListener("pause", updateBtn);
-
-          // Video bittiğinde sinema bileti pop-up
-          if (key === NEW_YEAR_KEY) {
-            let shown = false;
-            video.addEventListener("ended", () => {
-              playBtn.classList.remove("video-play-btn--playing");
-              playBtn.textContent = "▶";
-              if (!shown) {
-                shown = true;
-                showTicketPopup();
-              }
-            });
-          }
-
-          photosEl.appendChild(wrapper);
+          setupCustomVideo(entryKey, entry);
         } else if (Array.isArray(entry.photos) && entry.photos.length > 0) {
           entry.photos.forEach((src) => {
             const wrapper = document.createElement("div");
@@ -1406,7 +1518,7 @@
         }
       }
 
-      function triggerAnniversaryEffects() {
+      function triggerAnniversaryEffects(entry) {
         if (!entry.isAnniversary) return;
 
         if (cardEl) {
@@ -1463,13 +1575,12 @@
             quizFeedbackEl.textContent =
               "AFERİN BENİM BAL KÜPÜME! 💖";
 
-            // 1 Ocak için sinema + kış teması
             if (key === NEW_YEAR_KEY) {
               document.body.classList.add("winter-cinema");
             }
 
-            renderEntryContent();
-            triggerAnniversaryEffects();
+            renderEntryContent(key, entry, idx);
+            triggerAnniversaryEffects(entry);
           } else {
             quizFeedbackEl.textContent =
               "Ya yuuuhh! Nasıl bilemezsin.";
@@ -1483,8 +1594,8 @@
           }
         });
       } else {
-        renderEntryContent();
-        triggerAnniversaryEffects();
+        renderEntryContent(key, entry, idx);
+        triggerAnniversaryEffects(entry);
       }
     })();
 
@@ -1548,7 +1659,6 @@
     }
   </script>
 
-  <!-- iOS autoscroll -->
   <script>
     (function autoScrollIOS() {
       var ua = window.navigator.userAgent || "";
@@ -1567,7 +1677,6 @@
     })();
   </script>
 
-  <!-- ÖNİZLEME MODU -->
   <script>
     (function setupPreview() {
       const hasPreviewHash = window.location.hash === "#preview";
@@ -1701,7 +1810,6 @@
     })();
   </script>
 
-  <!-- MÜZİK -->
   <script>
     (function setupMusic() {
       const audio = document.getElementById("bg-music");
