@@ -148,6 +148,52 @@
       border-color: rgba(255, 200, 230, 0.6);
     }
 
+    /* AYDÖNÜMÜ ÖZEL ROZETİ */
+    .card-anniversary-badge {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(255, 200, 230, 0.95), #f28b82);
+      color: #1a1a26;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      box-shadow:
+        0 0 12px rgba(255, 200, 230, 0.9),
+        0 0 24px rgba(242, 139, 130, 0.7);
+      animation: badgePulse 1.6s ease-in-out infinite;
+      z-index: 3;
+    }
+
+    @keyframes badgePulse {
+      0%   { transform: scale(1);   opacity: 1;   }
+      50%  { transform: scale(1.06); opacity: 0.9; }
+      100% { transform: scale(1);   opacity: 1;   }
+    }
+
+    /* AYDÖNÜMÜ GÜNÜ İÇİN ÖZEL KART */
+    .card.anniversary-aydonumu {
+      background:
+        radial-gradient(circle at top, rgba(255, 226, 238, 0.16), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(242, 139, 130, 0.16), transparent 65%),
+        var(--card-bg);
+      border-color: rgba(255, 210, 230, 0.9);
+      box-shadow:
+        0 0 45px rgba(255, 192, 203, 0.7),
+        0 22px 60px rgba(0, 0, 0, 0.8);
+    }
+
+    .card.anniversary-aydonumu .note-title {
+      color: #ffe3f2;
+      text-shadow: 0 0 10px rgba(255, 200, 230, 0.7);
+    }
+
+    .card.anniversary-aydonumu .note-text {
+      color: #fff7fb;
+    }
+
     .card-header {
       position: relative;
       display: flex;
@@ -1104,8 +1150,7 @@
         quiz: {
           question: "Dünyanın en tatlı insanı",
           answers: ["ben", "beyza", "beyza alpir", "melis beyza alpir"]
-        },
-        isAnniversary: true
+        }
       },
 
       "2025-12-12": {
@@ -1119,7 +1164,8 @@
           question: "BUGÜN KAÇ AYLIK OLDUK",
           answers: ["7", "yedi"]
         },
-        isAnniversary: true
+        isAnniversary: true,
+        isAydonumu: true
       },
 
       "2025-12-13": {
@@ -1387,7 +1433,6 @@
   <!-- ANA LOGİK -->
   <script>
     (function init() {
-      // Test için sabit tarih (istersen değiştirebilirsin)
       const today = new Date();
 
       const todayDateOnly = new Date(
@@ -1427,17 +1472,28 @@
 
       function clearAnniversaryEffects() {
         if (cardEl) {
-          cardEl.classList.remove("anniversary");
+          cardEl.classList.remove("anniversary", "anniversary-aydonumu");
+          const badge = cardEl.querySelector(".card-anniversary-badge");
+          if (badge) badge.remove();
         }
       }
 
       function triggerAnniversaryEffects(entry) {
-        if (!entry || !entry.isAnniversary) return;
+        // Sadece 12 Aralık (isAydonumu) için özel efektler
+        if (!entry || !entry.isAydonumu) return;
 
         clearAnniversaryEffects();
 
         if (cardEl) {
-          cardEl.classList.add("anniversary");
+          // Eski ışıklar + yeni özel kart stili birlikte
+          cardEl.classList.add("anniversary", "anniversary-aydonumu");
+
+          if (!cardEl.querySelector(".card-anniversary-badge")) {
+            const badge = document.createElement("div");
+            badge.className = "card-anniversary-badge";
+            badge.textContent = "AYDÖNÜMÜ 💫";
+            cardEl.appendChild(badge);
+          }
         }
 
         const sound = document.getElementById("confetti-sound");
@@ -1457,7 +1513,7 @@
               startVelocity: 45,
               ticks: 200,
               gravity: 0.8,
-              origin: { x: Math.random(), y: 0.0 } // tam üstten başlasın
+              origin: { x: Math.random(), y: 0.0 }
             });
             if (Date.now() < end) requestAnimationFrame(frame);
           })();
@@ -1520,7 +1576,6 @@
         return;
       }
 
-      // ENTRY RENDER FONKSİYONU
       function renderEntryContent(entryKey, entry, idxForTitle) {
         noteSection.hidden = false;
 
@@ -1543,7 +1598,6 @@
         photosEl.innerHTML = "";
 
         if (entry.video) {
-          // 33. gün: sadece video (foto göstermiyoruz)
           setupCustomVideo(entryKey, entry);
         } else if (Array.isArray(entry.photos) && entry.photos.length > 0) {
           entry.photos.forEach((src) => {
@@ -1731,7 +1785,6 @@
         }
       }
 
-      // Post-sezon: belli bir günü açma
       function openPostSeasonDay(dateKey) {
         const entry = entries[dateKey];
         if (!entry) return;
@@ -1860,7 +1913,6 @@
         });
       }
 
-      // TAKVİM BİTTİKTEN SONRA
       if (todayDateOnly > seasonEnd) {
         setupPostSeasonScreen();
         return;
@@ -1885,7 +1937,6 @@
 
       noteSection.hidden = true;
 
-      // Normal sezon: quiz + o günün içeriği
       if (
         entry.quiz &&
         entry.quiz.question &&
